@@ -13,28 +13,48 @@ import Swal from "sweetalert2";
 
 function CreateUser() {
   const [employeeID, setEmployeeID] = useState("");
-  const [username, setUsername] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [role, setRole] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("admin");
-  const [organizationName, setOrganizationName] = useState("");
-  const [siteName, setSiteName] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [responsibility, setResponsibility] = useState("");
+  const [siteName, setSiteName] = useState("");
 
   const handleCancel = () => {
     setEmployeeID("");
-    setUsername("");
-    setMobileNumber("");
+    setRole("");
+    setFirstName("");
+    setLastName("");
     setEmail("");
     setPassword("");
-    setRole("admin");
-    setOrganizationName("");
-    setSiteName("");
+    setMobileNumber("");
+    setCompanyName("");
     setResponsibility("");
+    setSiteName("");
   };
 
   const handleSave = () => {
+    if (
+      employeeID.trim() === "" ||
+      password.trim() === "" ||
+      role.trim() === "" ||
+      companyName.trim() === "" ||
+      siteName.trim() === ""
+    ) {
+      Swal.fire({
+        title: "Please fill in all the required fields.",
+        icon: "warning",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: "btn btn-warning",
+        },
+      });
+      return;
+    }
+
     Swal.fire({
       title: "User Created Successfully!",
       icon: "success",
@@ -94,7 +114,7 @@ function CreateUser() {
                 <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="employeeID" className="form-label">
-                      Employee ID
+                      User ID
                     </label>
                     <input
                       type="text"
@@ -107,16 +127,82 @@ function CreateUser() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label htmlFor="username" className="form-label">
-                      Username
+                    <label htmlFor="role" className="form-label">
+                      Role
+                    </label>
+                    <select
+                      className="form-select"
+                      id="role"
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
+                      required
+                      placeholder="Select Role"
+                    >
+                      <option value="">Select Role</option>
+                      <option value="admin">Admin</option>
+                      <option value="gateUser">Gate User</option>
+                      <option value="weighbridgeOperator">
+                        Weighbridge Operator
+                      </option>
+                      <option value="qualityUser">Quality User</option>
+                      <option value="management">Management</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor="firstName" className="form-label">
+                      First Name
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="username"
-                      placeholder="Enter Username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      id="firstName"
+                      placeholder="Enter First Name"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="lastName" className="form-label">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="lastName"
+                      placeholder="Enter Last Name"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor="email" className="form-label">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      placeholder="Enter Email Address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="password" className="form-label">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      placeholder="Enter Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
                     />
                   </div>
                 </div>
@@ -135,82 +221,23 @@ function CreateUser() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label htmlFor="email" className="form-label">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      placeholder="Enter Email Address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="password" className="form-label">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      placeholder="Enter Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="role" className="form-label">
-                      Role
+                    <label htmlFor="companyName" className="form-label">
+                      Company Name
                     </label>
                     <select
                       className="form-select"
-                      id="role"
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
+                      id="companyName"
+                      value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
                       required
                     >
-                      <option value="admin">Admin</option>
-                      <option value="gateUser">Gate User</option>
-                      <option value="weighbridgeOperator">
-                        Weighbridge Operator
+                      <option value="">Select Company Name</option>
+                      <option value="Vikrant private Ltd.">
+                        Vikrant private Ltd.
                       </option>
-                      <option value="qualityUser">Quality User</option>
-                      <option value="management">Management</option>
+                      <option value="Highlander">Highlander</option>
+                      <option value="Ryder">Ryder</option>
                     </select>
-                  </div>
-                </div>
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="organizationName" className="form-label">
-                      Organization Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="organizationName"
-                      placeholder="Enter Your Organization name"
-                      value={organizationName}
-                      onChange={(e) => setOrganizationName(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="siteName" className="form-label">
-                      Site Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="siteName"
-                      placeholder="Enter Your site name name"
-                      value={siteName}
-                      onChange={(e) => setSiteName(e.target.value)}
-                    />
                   </div>
                 </div>
                 <div className="row mb-3">
@@ -226,6 +253,23 @@ function CreateUser() {
                       value={responsibility}
                       onChange={(e) => setResponsibility(e.target.value)}
                     />
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="siteName" className="form-label">
+                      Site Name
+                    </label>
+                    <select
+                      className="form-select"
+                      id="siteName"
+                      value={siteName}
+                      onChange={(e) => setSiteName(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Site Name</option>
+                      <option value="Bhubaneswar">Bhubaneswar</option>
+                      <option value="Rourkela">Rourkela</option>
+                      <option value="Puri">Puri</option>
+                    </select>
                   </div>
                 </div>
               </form>
