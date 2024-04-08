@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -7,13 +8,13 @@ import {
   faExchangeAlt,
   faSignOut,
   faUserFriends,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 import Swal from "sweetalert2";
 
 function CreateUser() {
   const [employeeID, setEmployeeID] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,10 +23,11 @@ function CreateUser() {
   const [companyName, setCompanyName] = useState("");
   const [responsibility, setResponsibility] = useState("");
   const [siteName, setSiteName] = useState("");
+  console.log(role);
 
   const handleCancel = () => {
     setEmployeeID("");
-    setRole("");
+    setRole([]);
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -40,7 +42,7 @@ function CreateUser() {
     if (
       employeeID.trim() === "" ||
       password.trim() === "" ||
-      role.trim() === "" ||
+      role.length === 0 ||
       companyName.trim() === "" ||
       siteName.trim() === ""
     ) {
@@ -63,6 +65,28 @@ function CreateUser() {
         confirmButton: "btn btn-success",
       },
     });
+  };
+
+  const handleRoleChange = (selectedRole) => {
+    if (role.includes(selectedRole)) {
+      setRole(role.filter((r) => r !== selectedRole));
+    } else {
+      setRole([...role, selectedRole]);
+    }
+  };
+
+  const handleSelectAllRoles = () => {
+    if (role.length === 5) {
+      setRole([]);
+    } else {
+      setRole([
+        "admin",
+        "gateUser",
+        "weighbridgeOperator",
+        "qualityUser",
+        "management",
+      ]);
+    }
   };
 
   return (
@@ -130,25 +154,105 @@ function CreateUser() {
                     <label htmlFor="role" className="form-label">
                       Role
                     </label>
-                    <select
-                      className="form-select"
-                      id="role"
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
-                      required
-                      placeholder="Select Role"
-                    >
-                      <option value="">Select Role</option>
-                      <option value="admin">Admin</option>
-                      <option value="gateUser">Gate User</option>
-                      <option value="weighbridgeOperator">
-                        Weighbridge Operator
-                      </option>
-                      <option value="qualityUser">Quality User</option>
-                      <option value="management">Management</option>
-                    </select>
+                    <div className="d-flex gap-2">
+                      <div className="d-flex flex-wrap gap-2">
+                        {role.map((r, index) => (
+                          <div
+                            key={index}
+                            className="d-flex align-items-center bg-secondary text-white px-2 py-1 rounded"
+                          >
+                            <span className="me-2">{r}</span>
+                            <FontAwesomeIcon
+                              icon={faTimes}
+                              className="cursor-pointer"
+                              onClick={() => handleRoleChange(r)}
+                            />
+                          </div>
+                        ))}
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          id="dropdownRole"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Select Roles
+                        </button>
+                        <ul
+                          className="dropdown-menu"
+                          aria-labelledby="dropdownRole"
+                        >
+                          <li>
+                            <label className="dropdown-item">
+                              <input
+                                type="checkbox"
+                                onChange={() => handleRoleChange("admin")}
+                                checked={role.includes("admin")}
+                              />
+                              Admin
+                            </label>
+                          </li>
+                          <li>
+                            <label className="dropdown-item">
+                              <input
+                                type="checkbox"
+                                onChange={() => handleRoleChange("gateUser")}
+                                checked={role.includes("gateUser")}
+                              />
+                              Gate User
+                            </label>
+                          </li>
+                          <li>
+                            <label className="dropdown-item">
+                              <input
+                                type="checkbox"
+                                onChange={() =>
+                                  handleRoleChange("weighbridgeOperator")
+                                }
+                                checked={role.includes("weighbridgeOperator")}
+                              />
+                              Weighbridge Operator
+                            </label>
+                          </li>
+                          <li>
+                            <label className="dropdown-item">
+                              <input
+                                type="checkbox"
+                                onChange={() => handleRoleChange("qualityUser")}
+                                checked={role.includes("qualityUser")}
+                              />
+                              Quality User
+                            </label>
+                          </li>
+                          <li>
+                            <label className="dropdown-item">
+                              <input
+                                type="checkbox"
+                                onChange={() => handleRoleChange("management")}
+                                checked={role.includes("management")}
+                              />
+                              Management
+                            </label>
+                          </li>
+                          <li>
+                            <hr className="dropdown-divider" />
+                          </li>
+                          <li>
+                            <label className="dropdown-item">
+                              <input
+                                type="checkbox"
+                                onChange={handleSelectAllRoles}
+                                checked={role.length === 5}
+                              />
+                              Select All Roles
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
+
                 <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="firstName" className="form-label">
