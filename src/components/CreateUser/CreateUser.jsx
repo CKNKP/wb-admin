@@ -11,9 +11,10 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
+import "./CreateUser.css";
 
 function CreateUser() {
-  const [employeeID, setEmployeeID] = useState("");
+  const [userID, setuserID] = useState("");
   const [role, setRole] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -26,7 +27,7 @@ function CreateUser() {
   const [siteName, setSiteName] = useState("");
 
   const handleCancel = () => {
-    setEmployeeID("");
+    setuserID("");
     setRole([]);
     setFirstName("");
     setMiddleName("");
@@ -41,7 +42,7 @@ function CreateUser() {
 
   const handleSave = () => {
     if (
-      employeeID.trim() === "" ||
+      userID.trim() === "" ||
       password.trim() === "" ||
       role.length === 0 ||
       companyName.trim() === "" ||
@@ -59,7 +60,7 @@ function CreateUser() {
     }
 
     const userData = {
-      employeeID,
+      userID,
       role,
       firstName,
       lastName,
@@ -171,7 +172,7 @@ function CreateUser() {
         </div>
       </div>
 
-      <div className="home-main-content">
+      <div className="create-main-content">
         <div className="create-user-container">
           <div className="card create-user-form">
             <div
@@ -181,16 +182,16 @@ function CreateUser() {
               <form>
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="employeeID" className="form-label">
+                    <label htmlFor="userID" className="form-label">
                       User ID
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="employeeID"
+                      id="userID"
                       placeholder="Enter User ID"
-                      value={employeeID}
-                      onChange={(e) => setEmployeeID(e.target.value)}
+                      value={userID}
+                      onChange={(e) => setuserID(e.target.value)}
                       required
                     />
                   </div>
