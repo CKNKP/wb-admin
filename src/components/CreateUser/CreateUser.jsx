@@ -16,6 +16,7 @@ function CreateUser() {
   const [employeeID, setEmployeeID] = useState("");
   const [role, setRole] = useState([]);
   const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,12 +24,12 @@ function CreateUser() {
   const [companyName, setCompanyName] = useState("");
   const [responsibility, setResponsibility] = useState("");
   const [siteName, setSiteName] = useState("");
-  console.log(role);
 
   const handleCancel = () => {
     setEmployeeID("");
     setRole([]);
     setFirstName("");
+    setMiddleName("");
     setLastName("");
     setEmail("");
     setPassword("");
@@ -57,14 +58,57 @@ function CreateUser() {
       return;
     }
 
-    Swal.fire({
-      title: "User Created Successfully!",
-      icon: "success",
-      confirmButtonText: "OK",
-      customClass: {
-        confirmButton: "btn btn-success",
+    const userData = {
+      employeeID,
+      role,
+      firstName,
+      lastName,
+      middleName,
+      email,
+      password,
+      mobileNumber,
+      companyName,
+      responsibility,
+      siteName,
+    };
+
+    fetch("https://your-api-endpoint.com/createUser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    });
+      body: JSON.stringify(userData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((data) => {
+        Swal.fire({
+          title: "User Created Successfully!",
+          icon: "success",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+
+        handleCancel();
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+        Swal.fire({
+          title: "Error",
+          text: "An error occurred while creating the user. Please try again later.",
+          icon: "error",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "btn btn-danger",
+          },
+        });
+      });
   };
 
   const handleRoleChange = (selectedRole) => {
@@ -269,6 +313,21 @@ function CreateUser() {
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="lastName" className="form-label">
+                      Middle Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="middleName"
+                      placeholder="Enter Middle Name"
+                      value={middleName}
+                      onChange={(e) => setMiddleName(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor="lastName" className="form-label">
                       Last Name
                     </label>
                     <input
@@ -281,6 +340,7 @@ function CreateUser() {
                     />
                   </div>
                 </div>
+
                 <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="email" className="form-label">
@@ -345,19 +405,6 @@ function CreateUser() {
                   </div>
                 </div>
                 <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="responsibility" className="form-label">
-                      Responsibility
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="responsibility"
-                      placeholder="Enter Responsibility"
-                      value={responsibility}
-                      onChange={(e) => setResponsibility(e.target.value)}
-                    />
-                  </div>
                   <div className="col-md-6">
                     <label htmlFor="siteName" className="form-label">
                       Site Name
