@@ -2,51 +2,63 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
-  faFileAlt,
-  faVideo,
-  faMapMarked,
-  faExchangeAlt,
-  faSignOut,
-  faUserFriends,
   faTimes,
+  faUserFriends,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import "./CreateUser.css";
+import { Link } from "react-router-dom";
 
 function CreateUser() {
-  const [userID, setuserID] = useState("");
+  const [userId, setuserId] = useState("");
   const [role, setRole] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [emailId, setemailId] = useState("");
   const [password, setPassword] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [responsibility, setResponsibility] = useState("");
-  const [siteName, setSiteName] = useState("");
+  const [contactNo, setcontactNo] = useState("");
+  const [company, setcompany] = useState("");
+  const [companySite, setcompanySite] = useState("");
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  console.log(
+    role,
+    userId,
+    firstName,
+    middleName,
+    lastName,
+    emailId,
+    password,
+    contactNo,
+    company,
+    companySite
+  );
 
   const handleCancel = () => {
-    setuserID("");
+    setuserId("");
     setRole([]);
     setFirstName("");
     setMiddleName("");
     setLastName("");
-    setEmail("");
+    setemailId("");
     setPassword("");
-    setMobileNumber("");
-    setCompanyName("");
-    setResponsibility("");
-    setSiteName("");
+    setcontactNo("");
+    setcompany("");
+    setcompanySite("");
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarExpanded(!isSidebarExpanded);
   };
 
   const handleSave = () => {
     if (
-      userID.trim() === "" ||
+      userId.trim() === "" ||
       password.trim() === "" ||
       role.length === 0 ||
-      companyName.trim() === "" ||
-      siteName.trim() === ""
+      company.trim() === "" ||
+      companySite.trim() === ""
     ) {
       Swal.fire({
         title: "Please fill in all the required fields.",
@@ -60,20 +72,19 @@ function CreateUser() {
     }
 
     const userData = {
-      userID,
+      userId,
+      companySite,
+      company,
+      emailId,
+      password,
+      contactNo,
       role,
       firstName,
-      lastName,
       middleName,
-      email,
-      password,
-      mobileNumber,
-      companyName,
-      responsibility,
-      siteName,
+      lastName,
     };
 
-    fetch("https://your-api-endpoint.com/createUser", {
+    fetch("http://localhost:8080/api/v1/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -125,11 +136,11 @@ function CreateUser() {
       setRole([]);
     } else {
       setRole([
-        "admin",
-        "gateUser",
-        "weighbridgeOperator",
-        "qualityUser",
-        "management",
+        "ADMIN",
+        "GATE_USER",
+        "WEIGHBRIDGE_OPERATOR",
+        "QUALITY_USER",
+        "MANAGEMENT",
       ]);
     }
   };
@@ -137,42 +148,60 @@ function CreateUser() {
   return (
     <div className="create-user">
       <div className="report-header d-flex justify-content-between align-items-center">
-        <div></div>
-        <h2 className="report-header-title text-center mt-3">CREATE USER</h2>
+        <FontAwesomeIcon
+          icon={faBars}
+          className="daily_report_icon mt-2 me-3 sidebar-toggle-btn"
+          onClick={toggleSidebar}
+        />
+        <h2 className="report-header-title text-center mt-3 d-flex align-content-center">
+          CREATE USER
+        </h2>
         <FontAwesomeIcon
           icon={faHome}
-          className="daily_report_icon mt-2 me-3"
+          className="daily_report_icon mt-2 me-2"
         />
       </div>
 
-      <div className="home-sidebar d-flex flex-column text-center">
-        <div to="/vehicle-entry" className="sidebar-item">
-          <FontAwesomeIcon icon={faUserFriends} className="sidebar-icon" />
-          <span className="sidebar-item-text">Users</span>
-        </div>
-        <div to="/live-location" className="sidebar-item">
-          <FontAwesomeIcon icon={faMapMarked} className="sidebar-icon" />
-          <span className="sidebar-item-text">Live Location</span>
-        </div>
-        <div to="/live-transaction" className="sidebar-item">
-          <FontAwesomeIcon icon={faExchangeAlt} className="sidebar-icon" />
-          <span className="sidebar-item-text">Live Transaction</span>
-        </div>
-        <div to="/camera" className="sidebar-item">
-          <FontAwesomeIcon icon={faVideo} className="sidebar-icon" />
-          <span className="sidebar-item-text">Camera</span>
-        </div>
-        <div to="/report" className="sidebar-item">
-          <FontAwesomeIcon icon={faFileAlt} className="sidebar-icon rp-icon" />
-          <span className="sidebar-item-text">Reports</span>
-        </div>
-        <div to="/" className="sidebar-item">
-          <FontAwesomeIcon icon={faSignOut} className="sidebar-icon" />
-          <span className="sidebar-item-text">Logout</span>
+      <div className={`home-sidebar ${isSidebarExpanded ? "expanded" : ""}`}>
+        <div className="sidebar-item dropdown">
+          <Link
+            to="/"
+            className="d-flex align-items-center"
+            id="usersDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            style={{ textDecoration: "none" }}
+          >
+            <FontAwesomeIcon icon={faUserFriends} className="sidebar-icon" />
+            <span className="sidebar-item-text">Users</span>
+          </Link>
+          <ul
+            className="dropdown-menu dropdown-menu-dark"
+            aria-labelledby="usersDropdown"
+          >
+            <li>
+              <Link className="dropdown-item" to="/">
+                Create User
+              </Link>
+            </li>
+            <li>
+              <Link className="dropdown-item" to="/manage-user">
+                Manage User
+              </Link>
+            </li>
+            <li>
+              <Link className="dropdown-item" to="/view-users">
+                View Users
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <div className="create-main-content">
+      <div
+        className={`create-main-content ${isSidebarExpanded ? "expanded" : ""}`}
+      >
         <div className="create-user-container">
           <div className="card create-user-form">
             <div
@@ -182,16 +211,16 @@ function CreateUser() {
               <form>
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="userID" className="form-label">
+                    <label htmlFor="userId" className="form-label">
                       User ID
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="userID"
+                      id="userId"
                       placeholder="Enter User ID"
-                      value={userID}
-                      onChange={(e) => setuserID(e.target.value)}
+                      value={userId}
+                      onChange={(e) => setuserId(e.target.value)}
                       required
                     />
                   </div>
@@ -215,7 +244,7 @@ function CreateUser() {
                           </div>
                         ))}
                         <button
-                          className="btn btn-primary dropdown-toggle"
+                          className="btn btn-secondary dropdown-toggle"
                           type="button"
                           id="dropdownRole"
                           data-bs-toggle="dropdown"
@@ -241,8 +270,8 @@ function CreateUser() {
                             <label className="dropdown-item">
                               <input
                                 type="checkbox"
-                                onChange={() => handleRoleChange("gateUser")}
-                                checked={role.includes("gateUser")}
+                                onChange={() => handleRoleChange("GATE_USER")}
+                                checked={role.includes("GATE_USER")}
                               />
                               Gate User
                             </label>
@@ -252,9 +281,9 @@ function CreateUser() {
                               <input
                                 type="checkbox"
                                 onChange={() =>
-                                  handleRoleChange("weighbridgeOperator")
+                                  handleRoleChange("WEIGHBRIDGE_OPERATOR")
                                 }
-                                checked={role.includes("weighbridgeOperator")}
+                                checked={role.includes("WEIGHBRIDGE_OPERATOR")}
                               />
                               Weighbridge Operator
                             </label>
@@ -263,8 +292,10 @@ function CreateUser() {
                             <label className="dropdown-item">
                               <input
                                 type="checkbox"
-                                onChange={() => handleRoleChange("qualityUser")}
-                                checked={role.includes("qualityUser")}
+                                onChange={() =>
+                                  handleRoleChange("QUALITY_USER")
+                                }
+                                checked={role.includes("QUALITY_USER")}
                               />
                               Quality User
                             </label>
@@ -273,8 +304,8 @@ function CreateUser() {
                             <label className="dropdown-item">
                               <input
                                 type="checkbox"
-                                onChange={() => handleRoleChange("management")}
-                                checked={role.includes("management")}
+                                onChange={() => handleRoleChange("MANAGEMENT")}
+                                checked={role.includes("MANAGEMENT")}
                               />
                               Management
                             </label>
@@ -313,7 +344,7 @@ function CreateUser() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label htmlFor="lastName" className="form-label">
+                    <label htmlFor="middleName" className="form-label">
                       Middle Name
                     </label>
                     <input
@@ -344,16 +375,16 @@ function CreateUser() {
 
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="email" className="form-label">
-                      Email
+                    <label htmlFor="emailId" className="form-label">
+                      emailId
                     </label>
                     <input
-                      type="email"
+                      type="emailId"
                       className="form-control"
-                      id="email"
-                      placeholder="Enter Email Address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      id="emailId"
+                      placeholder="Enter emailId Address"
+                      value={emailId}
+                      onChange={(e) => setemailId(e.target.value)}
                     />
                   </div>
                   <div className="col-md-6">
@@ -368,59 +399,58 @@ function CreateUser() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      autoComplete="username"
                     />
                   </div>
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="mobileNumber" className="form-label">
+                    <label htmlFor=" contactNo" className="form-label">
                       Mobile Number
                     </label>
                     <input
                       type="tel"
                       className="form-control"
-                      id="mobileNumber"
+                      id=" contactNo"
                       placeholder="Enter Mobile Number"
-                      value={mobileNumber}
-                      onChange={(e) => setMobileNumber(e.target.value)}
+                      value={contactNo}
+                      onChange={(e) => setcontactNo(e.target.value)}
                     />
                   </div>
                   <div className="col-md-6">
-                    <label htmlFor="companyName" className="form-label">
+                    <label htmlFor="company" className="form-label">
                       Company Name
                     </label>
                     <select
                       className="form-select"
-                      id="companyName"
-                      value={companyName}
-                      onChange={(e) => setCompanyName(e.target.value)}
+                      id="company"
+                      value={company}
+                      onChange={(e) => setcompany(e.target.value)}
                       required
                     >
                       <option value="">Select Company Name</option>
-                      <option value="Vikrant private Ltd.">
-                        Vikrant private Ltd.
-                      </option>
+                      <option value="Vikram">Vikram private Ltd.</option>
                       <option value="Highlander">Highlander</option>
-                      <option value="Ryder">Ryder</option>
+                      <option value="Rider">Rider</option>
                     </select>
                   </div>
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="siteName" className="form-label">
+                    <label htmlFor="companySite" className="form-label">
                       Site Name
                     </label>
                     <select
                       className="form-select"
-                      id="siteName"
-                      value={siteName}
-                      onChange={(e) => setSiteName(e.target.value)}
+                      id="companySite"
+                      value={companySite}
+                      onChange={(e) => setcompanySite(e.target.value)}
                       required
                     >
                       <option value="">Select Site Name</option>
-                      <option value="Bhubaneswar">Bhubaneswar</option>
-                      <option value="Rourkela">Rourkela</option>
-                      <option value="Puri">Puri</option>
+                      <option value="BBSR">Bhubaneswar</option>
+                      <option value="ROURKELA">Rourkela</option>
+                      <option value="CTC">Cuttack</option>
                     </select>
                   </div>
                 </div>

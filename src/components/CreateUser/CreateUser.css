@@ -1,17 +1,17 @@
 .home-sidebar {
   width: 60px;
-  background-color: rgb(30, 41, 59);
+  background-color: #4b658a;
   color: #fff;
   padding: 20px 10px;
   padding-top: 50px;
   position: fixed;
   top: 50px;
   bottom: 0;
-  /* height: 100%; */
   transition: width 0.2s ease;
   overflow: hidden;
 }
-.home-sidebar:hover {
+
+.home-sidebar.expanded {
   width: 200px;
 }
 
@@ -31,10 +31,6 @@
   text-decoration: none;
   background-color: white;
 }
-.sidebar-item:hover {
-  transform: scale(1.05); /* Increase the size of the element */
-  transition: transform 0.3s ease; /* Add a smooth transition effect */
-}
 
 .sidebar-item-text {
   margin-left: 10px;
@@ -45,38 +41,44 @@
   transition: opacity 0.3s ease;
   color: #000;
 }
-.home-sidebar:hover .sidebar-item-text {
+
+.home-sidebar.expanded .sidebar-item-text {
   opacity: 1;
 }
+
 .sidebar-icon {
   font-size: 1.2rem;
   color: #000;
 }
 
-.home-sidebar:not(:hover) + .create-main-content {
+.home-sidebar:not(.expanded) + .create-main-content {
   margin-left: 80px;
+}
+
+.home-sidebar.expanded + .create-main-content {
+  margin-left: 210px;
 }
 
 .report-header {
   position: fixed;
   width: 100%;
-  background-color: rgb(51, 65, 85);
+  background-color: #5776a2;
   color: white;
   z-index: 1000;
   top: 0;
 }
 
 .report-header-title {
-  background-color: rgb(51, 65, 85);
+  background-color: #5776a2;
   font-weight: 400;
 }
 
 .daily_report_icon {
-  border: 2px solid #333;
   border-radius: 50%;
   padding: 10px;
   color: black;
   background-color: #f0f0f0;
+  cursor: pointer;
 }
 
 .daily_report_icon:hover {
@@ -99,13 +101,27 @@
 }
 
 .btn-hover:hover {
-  background-color: #d63031 !important; /* Darker red for the "Cancel" button */
+  background-color: #d63031 !important;
   color: #fff !important;
-  transform: scale(1.1) !important; /* Increase the scale on hover */
+  transform: scale(1.1) !important;
 }
 
 .btn-hover.btn-success:hover {
-  background-color: #2ecc71 !important; /* Darker green for the "Save" button */
+  background-color: #2ecc71 !important;
   color: #fff !important;
-  transform: scale(1.1) !important; /* Increase the scale on hover */
+  transform: scale(1.1) !important;
+}
+
+.sidebar-toggle-btn {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.home-toggle-btn {
+  margin-right: 10px;
+}
+
+label {
+  font-weight: bold;
+  color: rgb(51, 65, 85);
 }
