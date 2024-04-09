@@ -7,10 +7,10 @@ import {
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
-import "./CreateUser.css";
+import "./UpdateUser.css";
 import { Link } from "react-router-dom";
 
-function CreateUser() {
+function UpdateUser() {
   const [userId, setuserId] = useState("");
   const [role, setRole] = useState([]);
   const [firstName, setFirstName] = useState("");
@@ -99,7 +99,7 @@ function CreateUser() {
       })
       .then((data) => {
         Swal.fire({
-          title: "User Created Successfully!",
+          title: "User Updated Successfully!",
           icon: "success",
           confirmButtonText: "OK",
           customClass: {
@@ -154,7 +154,7 @@ function CreateUser() {
           onClick={toggleSidebar}
         />
         <h2 className="report-header-title text-center mt-3 d-flex align-content-center">
-          CREATE USER
+          UPDATE USER
         </h2>
         <FontAwesomeIcon
           icon={faHome}
@@ -382,7 +382,7 @@ function CreateUser() {
                       type="emailId"
                       className="form-control"
                       id="emailId"
-                      placeholder="Enter emailId Address"
+                      placeholder="Enter email address"
                       value={emailId}
                       onChange={(e) => setemailId(e.target.value)}
                     />
@@ -473,14 +473,14 @@ function CreateUser() {
                   type="button"
                   className="btn btn-success btn-hover"
                   style={{
-                    backgroundColor: "green",
+                    backgroundColor: "#EDBC17",
                     color: "white",
                     fontWeight: "bold",
                     transition: "transform 0.3s ease-in-out",
                   }}
                   onClick={handleSave}
                 >
-                  Save
+                  Update
                 </button>
               </div>
             </div>
@@ -491,4 +491,4 @@ function CreateUser() {
   );
 }
 
-export default CreateUser;
+export default UpdateUser;
