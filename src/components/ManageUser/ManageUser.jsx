@@ -11,7 +11,6 @@ import {
   faUserTimes,
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { Link } from "react-router-dom";
 
 function ManageUser() {
@@ -98,10 +97,40 @@ function ManageUser() {
       </div>
 
       <div className={`home-sidebar ${isSidebarExpanded ? "expanded" : ""}`}>
-        <Link to="/" className="sidebar-item">
-          <FontAwesomeIcon icon={faUserFriends} className="sidebar-icon" />
-          <span className="sidebar-item-text">Users</span>
-        </Link>
+        <div className="sidebar-item dropdown">
+          <Link
+            to="/"
+            className="d-flex align-items-center"
+            id="usersDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            style={{ textDecoration: "none" }}
+          >
+            <FontAwesomeIcon icon={faUserFriends} className="sidebar-icon" />
+            <span className="sidebar-item-text">Users</span>
+          </Link>
+          <ul
+            className="dropdown-menu dropdown-menu-dark"
+            aria-labelledby="usersDropdown"
+          >
+            <li>
+              <Link className="dropdown-item" to="/">
+                Create User
+              </Link>
+            </li>
+            <li>
+              <Link className="dropdown-item" to="/manage-user">
+                Manage User
+              </Link>
+            </li>
+            <li>
+              <Link className="dropdown-item" to="/view-users">
+                View Users
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div
