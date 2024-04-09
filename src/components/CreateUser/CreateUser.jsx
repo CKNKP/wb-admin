@@ -20,7 +20,7 @@ function CreateUser() {
   const [password, setPassword] = useState("");
   const [contactNo, setcontactNo] = useState("");
   const [company, setcompany] = useState("");
-  const [companySite, setcompanySite] = useState("");
+  const [site, setsite] = useState("");
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   // console.log(
   //   role,
@@ -32,7 +32,7 @@ function CreateUser() {
   //   password,
   //   contactNo,
   //   company,
-  //   companySite
+  //   site
   // );
 
   const handleCancel = () => {
@@ -45,7 +45,7 @@ function CreateUser() {
     setPassword("");
     setcontactNo("");
     setcompany("");
-    setcompanySite("");
+    setsite("");
   };
 
   const toggleSidebar = () => {
@@ -58,7 +58,7 @@ function CreateUser() {
       password.trim() === "" ||
       role.length === 0 ||
       company.trim() === "" ||
-      companySite.trim() === ""
+      site.trim() === ""
     ) {
       Swal.fire({
         title: "Please fill in all the required fields.",
@@ -73,7 +73,7 @@ function CreateUser() {
 
     const userData = {
       userId,
-      companySite,
+      site,
       company,
       emailId,
       password,
@@ -260,8 +260,8 @@ function CreateUser() {
                             <label className="dropdown-item">
                               <input
                                 type="checkbox"
-                                onChange={() => handleRoleChange("admin")}
-                                checked={role.includes("admin")}
+                                onChange={() => handleRoleChange("ADMIN")}
+                                checked={role.includes("ADMIN")}
                               />
                               Admin
                             </label>
@@ -382,7 +382,7 @@ function CreateUser() {
                       type="emailId"
                       className="form-control"
                       id="emailId"
-                      placeholder="Enter emailId Address"
+                      placeholder="Enter email address"
                       value={emailId}
                       onChange={(e) => setemailId(e.target.value)}
                     />
@@ -437,14 +437,14 @@ function CreateUser() {
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="companySite" className="form-label">
+                    <label htmlFor="site" className="form-label">
                       Site Name
                     </label>
                     <select
                       className="form-select"
-                      id="companySite"
-                      value={companySite}
-                      onChange={(e) => setcompanySite(e.target.value)}
+                      id="site"
+                      value={site}
+                      onChange={(e) => setsite(e.target.value)}
                       required
                     >
                       <option value="">Select Site Name</option>
@@ -471,7 +471,7 @@ function CreateUser() {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-success btn-hover"
+                  className="btn btn-success-1 btn-hover"
                   style={{
                     backgroundColor: "green",
                     color: "white",

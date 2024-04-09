@@ -9,18 +9,23 @@ import {
 import Swal from "sweetalert2";
 import "./UpdateUser.css";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function UpdateUser() {
-  const [userId, setuserId] = useState("");
-  const [role, setRole] = useState([]);
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [emailId, setemailId] = useState("");
-  const [password, setPassword] = useState("");
-  const [contactNo, setcontactNo] = useState("");
-  const [company, setcompany] = useState("");
-  const [companySite, setcompanySite] = useState("");
+  const location = useLocation();
+  const user = location.state;
+  const [userId, setuserId] = useState(user.userId);
+  const [role, setRole] = useState(user.role);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [middleName, setMiddleName] = useState(user.middleName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [emailId, setemailId] = useState(user.emailId);
+  const [password, setPassword] = useState(user.password);
+  const [contactNo, setcontactNo] = useState(user.contactNo);
+  const [company, setcompany] = useState(user.company);
+  const [site, setsite] = useState(user.site);
+
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   // console.log(
   //   role,
@@ -32,9 +37,9 @@ function UpdateUser() {
   //   password,
   //   contactNo,
   //   company,
-  //   companySite
+  //   site
   // );
-
+  const navigate = useNavigate();
   const handleCancel = () => {
     setuserId("");
     setRole([]);
@@ -45,7 +50,7 @@ function UpdateUser() {
     setPassword("");
     setcontactNo("");
     setcompany("");
-    setcompanySite("");
+    setsite("");
   };
 
   const toggleSidebar = () => {
@@ -53,39 +58,8 @@ function UpdateUser() {
   };
 
   const handleSave = () => {
-    if (
-      userId.trim() === "" ||
-      password.trim() === "" ||
-      role.length === 0 ||
-      company.trim() === "" ||
-      companySite.trim() === ""
-    ) {
-      Swal.fire({
-        title: "Please fill in all the required fields.",
-        icon: "warning",
-        confirmButtonText: "OK",
-        customClass: {
-          confirmButton: "btn btn-warning",
-        },
-      });
-      return;
-    }
-
-    const userData = {
-      userId,
-      companySite,
-      company,
-      emailId,
-      password,
-      contactNo,
-      role,
-      firstName,
-      middleName,
-      lastName,
-    };
-
-    fetch("http://localhost:8080/api/v1/users", {
-      method: "POST",
+    fetch(`http://localhost:8080/api/v1/users/updateUser/${user.userId}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -93,6 +67,7 @@ function UpdateUser() {
     })
       .then((response) => {
         if (response.ok) {
+          console.log(response);
           return response.json();
         }
         throw new Error("Network response was not ok.");
@@ -106,7 +81,7 @@ function UpdateUser() {
             confirmButton: "btn btn-success",
           },
         });
-
+        navigate("/manage-user");
         handleCancel();
       })
       .catch((error) => {
@@ -122,6 +97,21 @@ function UpdateUser() {
         });
       });
   };
+
+  const userData = {
+    userId,
+    site,
+    company,
+    emailId,
+    password,
+    contactNo,
+    role,
+    firstName,
+    middleName,
+    lastName,
+  };
+
+  console.log(userData);
 
   const handleRoleChange = (selectedRole) => {
     if (role.includes(selectedRole)) {
@@ -260,8 +250,8 @@ function UpdateUser() {
                             <label className="dropdown-item">
                               <input
                                 type="checkbox"
-                                onChange={() => handleRoleChange("admin")}
-                                checked={role.includes("admin")}
+                                onChange={() => handleRoleChange("ADMIN")}
+                                checked={role.includes("ADMIN")}
                               />
                               Admin
                             </label>
@@ -437,14 +427,14 @@ function UpdateUser() {
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="companySite" className="form-label">
+                    <label htmlFor="site" className="form-label">
                       Site Name
                     </label>
                     <select
                       className="form-select"
-                      id="companySite"
-                      value={companySite}
-                      onChange={(e) => setcompanySite(e.target.value)}
+                      id="site"
+                      value={site}
+                      onChange={(e) => setsite(e.target.value)}
                       required
                     >
                       <option value="">Select Site Name</option>

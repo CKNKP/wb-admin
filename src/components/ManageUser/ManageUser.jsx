@@ -5,17 +5,24 @@ import {
   faHome,
   faUserFriends,
   faBars,
-  faUserCheck,
+  faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import "./ManageUser.css";
+import { useNavigate } from "react-router-dom";
 
 function ManageUser() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [users, setUsers] = useState([]);
 
+  const navigate = useNavigate();
+
   const toggleSidebar = () => {
     setIsSidebarExpanded(!isSidebarExpanded);
+  };
+
+  const handleEdit = (user) => {
+    navigate("/update-user", { state: user });
   };
 
   useEffect(() => {
@@ -65,7 +72,7 @@ function ManageUser() {
             style={{ textDecoration: "none" }}
           >
             <FontAwesomeIcon icon={faUserFriends} className="sidebar-icon" />
-            <span className="sidebar-item-text">User Managment</span>
+            <span className="sidebar-item-text">User Management</span>
           </Link>
           <ul
             className="dropdown-menu dropdown-menu-dark"
@@ -78,14 +85,14 @@ function ManageUser() {
             </li>
             <li>
               <Link className="dropdown-item" to="/manage-user">
-                Manage User
+                Maintain User
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link className="dropdown-item" to="/view-users">
                 View Users
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>
@@ -126,9 +133,9 @@ function ManageUser() {
                     <td>{user.site}</td>
                     <td>{user.status}</td>
                     <td>
-                      <button>
+                      <button onClick={() => handleEdit(user)}>
                         <FontAwesomeIcon
-                          icon={faUserCheck}
+                          icon={faPencilAlt}
                           className="action-icon activate-icon"
                         />
                       </button>

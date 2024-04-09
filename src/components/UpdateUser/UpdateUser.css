@@ -9,6 +9,7 @@
   bottom: 0;
   transition: width 0.2s ease;
   overflow: hidden;
+  height: 100%;
 }
 
 .home-sidebar.expanded {
