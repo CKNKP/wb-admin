@@ -220,6 +220,88 @@ function CreateUser() {
 
                 <div className="row mb-3">
                   <div className="col-md-6">
+                    <label htmlFor="emailId" className="form-label">
+                      Email Id
+                    </label>
+                    <input
+                      type="emailId"
+                      className="form-control"
+                      id="emailId"
+                      placeholder="Enter email address"
+                      value={emailId}
+                      onChange={(e) => setemailId(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="password" className="form-label">
+                      Password
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
+                    </label>
+                    <div className="input-group">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className="form-control"
+                        id="password"
+                        placeholder="Enter Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        autoComplete="username"
+                      />
+                      <button
+                        className="btn btn-outline-secondary"
+                        type="button"
+                        onClick={toggleShowPassword}
+                      >
+                        <FontAwesomeIcon
+                          icon={showPassword ? faEyeSlash : faEye}
+                        />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="row mb-3"></div>
+                  {/* <div className="col-md-6">
+                    <label htmlFor="userId" className="form-label">
+                      User ID
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="userId"
+                      placeholder="Enter User ID"
+                      value={userId}
+                      onChange={(e) => setuserId(e.target.value)}
+                      required
+                    />
+                  </div> */}
+                </div>
+
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor=" contactNo" className="form-label">
+                      Mobile Number
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
+                    </label>
+                    <input
+                      type="tel"
+                      className="form-control"
+                      id=" contactNo"
+                      placeholder="Enter Mobile Number"
+                      value={contactNo}
+                      onChange={(e) => setcontactNo(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="col-md-6">
                     <label htmlFor="role" className="form-label">
                       Role
                     </label>
@@ -322,87 +404,9 @@ function CreateUser() {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <label htmlFor="emailId" className="form-label">
-                      Email Id
-                    </label>
-                    <input
-                      type="emailId"
-                      className="form-control"
-                      id="emailId"
-                      placeholder="Enter email address"
-                      value={emailId}
-                      onChange={(e) => setemailId(e.target.value)}
-                    />
-                  </div>
                 </div>
 
                 <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="password" className="form-label">
-                      Password
-                      <span style={{ color: "red", fontWeight: "bold" }}>
-                        *
-                      </span>
-                    </label>
-                    <div className="input-group">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        className="form-control"
-                        id="password"
-                        placeholder="Enter Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        autoComplete="username"
-                      />
-                      <button
-                        className="btn btn-outline-secondary"
-                        type="button"
-                        onClick={toggleShowPassword}
-                      >
-                        <FontAwesomeIcon
-                          icon={showPassword ? faEyeSlash : faEye}
-                        />
-                      </button>
-                    </div>
-                  </div>
-                  {/* <div className="col-md-6">
-                    <label htmlFor="userId" className="form-label">
-                      User ID
-                      <span style={{ color: "red", fontWeight: "bold" }}>
-                        *
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="userId"
-                      placeholder="Enter User ID"
-                      value={userId}
-                      onChange={(e) => setuserId(e.target.value)}
-                      required
-                    />
-                  </div> */}
-                </div>
-
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor=" contactNo" className="form-label">
-                      Mobile Number
-                      <span style={{ color: "red", fontWeight: "bold" }}>
-                        *
-                      </span>
-                    </label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id=" contactNo"
-                      placeholder="Enter Mobile Number"
-                      value={contactNo}
-                      onChange={(e) => setcontactNo(e.target.value)}
-                    />
-                  </div>
                   <div className="col-md-6">
                     <label htmlFor="company" className="form-label">
                       Company Name
@@ -423,9 +427,7 @@ function CreateUser() {
                       <option value="Rider">Rider</option>
                     </select>
                   </div>
-                </div>
 
-                <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="site" className="form-label">
                       Site Name

@@ -50,6 +50,8 @@ function ManageUser() {
       <div
         className={`create-main-content ${isSidebarExpanded ? "expanded" : ""}`}
       >
+        <h2 className="text-center">Maintain User</h2>
+
         <div className="create-user-container">
           <div className="table-responsive-xl table-responsive-md table-responsive-lg table-responsive-sm table-responsive-xxl mt-3">
             <table className="table table-bordered table-striped">

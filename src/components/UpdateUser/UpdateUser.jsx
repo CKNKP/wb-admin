@@ -12,31 +12,18 @@ function UpdateUser() {
   const location = useLocation();
   const user = location.state;
   const [userId, setuserId] = useState(user.userId);
-  const [role, setRole] = useState(user.role);
   const [firstName, setFirstName] = useState(user.firstName);
   const [middleName, setMiddleName] = useState(user.middleName);
   const [lastName, setLastName] = useState(user.lastName);
+  const [role, setRole] = useState(user.role);
   const [emailId, setemailId] = useState(user.emailId);
-
   const [contactNo, setcontactNo] = useState(user.contactNo);
   const [company, setcompany] = useState(user.company);
   const [site, setsite] = useState(user.site);
-  // const [status, setStatus] = useState(user.status);
-
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
-  // console.log(
-  //   role,
-  //   userId,
-  //   firstName,
-  //   middleName,
-  //   lastName,
-  //   emailId,
-  //   password,
-  //   contactNo,
-  //   company,
-  //   site
-  // );
+  const [status, setStatus] = useState(user.status);
   const navigate = useNavigate();
+
   const handleCancel = () => {
     navigate("/manage-user");
   };
@@ -110,8 +97,6 @@ function UpdateUser() {
     lastName,
   };
 
-  console.log(userData);
-
   const handleRoleChange = (selectedRole) => {
     if (role.includes(selectedRole)) {
       setRole(role.filter((r) => r !== selectedRole));
@@ -146,6 +131,7 @@ function UpdateUser() {
       <div
         className={`create-main-content ${isSidebarExpanded ? "expanded" : ""}`}
       >
+        <h2 className="text-center">Update User</h2>
         <div className="create-user-container">
           <div className="card create-user-form">
             <div
@@ -168,6 +154,77 @@ function UpdateUser() {
                       required
                     />
                   </div>
+                  <div className="col-md-6">
+                    <label htmlFor="status" className="form-label">
+                      Status
+                    </label>
+                    <select
+                      className="form-select"
+                      id="status"
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
+                    >
+                      <option value="ACTIVE">ACTIVE</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="col-md-4">
+                    <label htmlFor="firstName" className="form-label">
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="firstName"
+                      placeholder="Enter First Name"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="middleName" className="form-label">
+                      Middle Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="middleName"
+                      placeholder="Enter Middle Name"
+                      value={middleName}
+                      onChange={(e) => setMiddleName(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="lastName" className="form-label">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="lastName"
+                      placeholder="Enter Last Name"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor="emailId" className="form-label">
+                      Email Id
+                    </label>
+                    <input
+                      type="emailId"
+                      className="form-control"
+                      id="emailId"
+                      placeholder="Enter email address"
+                      value={emailId}
+                      onChange={(e) => setemailId(e.target.value)}
+                    />
+                  </div>
+
                   <div className="col-md-6">
                     <label htmlFor="role" className="form-label">
                       Role
@@ -275,62 +332,19 @@ function UpdateUser() {
 
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="firstName" className="form-label">
-                      First Name
+                    <label htmlFor=" contactNo" className="form-label">
+                      Mobile Number
                     </label>
                     <input
-                      type="text"
+                      type="tel"
                       className="form-control"
-                      id="firstName"
-                      placeholder="Enter First Name"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
+                      id=" contactNo"
+                      placeholder="Enter Mobile Number"
+                      value={contactNo}
+                      onChange={(e) => setcontactNo(e.target.value)}
                     />
                   </div>
-                  <div className="col-md-6">
-                    <label htmlFor="middleName" className="form-label">
-                      Middle Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="middleName"
-                      placeholder="Enter Middle Name"
-                      value={middleName}
-                      onChange={(e) => setMiddleName(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="lastName" className="form-label">
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="lastName"
-                      placeholder="Enter Last Name"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </div>
-                </div>
 
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="emailId" className="form-label">
-                      Email Id
-                    </label>
-                    <input
-                      type="emailId"
-                      className="form-control"
-                      id="emailId"
-                      placeholder="Enter email address"
-                      value={emailId}
-                      onChange={(e) => setemailId(e.target.value)}
-                    />
-                  </div>
                   <div className="col-md-6">
                     <label htmlFor="company" className="form-label">
                       Company Name
@@ -349,21 +363,8 @@ function UpdateUser() {
                     </select>
                   </div>
                 </div>
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor=" contactNo" className="form-label">
-                      Mobile Number
-                    </label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id=" contactNo"
-                      placeholder="Enter Mobile Number"
-                      value={contactNo}
-                      onChange={(e) => setcontactNo(e.target.value)}
-                    />
-                  </div>
 
+                <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="site" className="form-label">
                       Site Name
@@ -377,7 +378,7 @@ function UpdateUser() {
                     >
                       <option value="">Select Site Name</option>
                       <option value="BBSR">Bhubaneswar</option>
-                      <option value="ROURKELA">Rourkela</option>
+                      <option value="Rourkela">Rourkela</option>
                       <option value="CTC">Cuttack</option>
                     </select>
                   </div>

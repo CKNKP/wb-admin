@@ -5,6 +5,7 @@ import {
   faTruck,
   faUsers,
   faAngleDown,
+  faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import "./SideBar.css";
@@ -89,6 +90,15 @@ const Sidebar = ({ isSidebarExpanded, toggleSidebar }) => {
           Supplier Master
         </span>
       </div>
+      <Link to="/" className="sidebar-item" onClick={handleSidebarItemClick}>
+        <FontAwesomeIcon icon={faPowerOff} className="sidebar-icon mt-1" />
+        <span
+          className="sidebar-item-text text-center mt-1"
+          style={{ marginLeft: "20px" }}
+        >
+          Sign Out
+        </span>
+      </Link>
     </div>
   );
 };
