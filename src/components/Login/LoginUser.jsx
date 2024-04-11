@@ -2,18 +2,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginUser.css";
 import Swal from "sweetalert2";
+
 const LoginUser = () => {
   const [userId, setUserId] = useState("");
   const [userPassword, setPassword] = useState("");
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:8080/api/v1/auths/logIn", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ userId: userId, userPassword: userPassword }),
       });
+
       if (response.ok) {
         const data = await response.json();
         if (data.roles.includes("ADMIN")) {
@@ -24,6 +29,33 @@ const LoginUser = () => {
             confirmButtonText: "OK",
           }).then(() => {
             navigate("/create-user");
+          });
+        } else if (data.roles.includes("QUALITY_USER")) {
+          Swal.fire({
+            title: "Login Successful!",
+            text: "Welcome, Quality User!",
+            icon: "success",
+            confirmButtonText: "OK",
+          }).then(() => {
+            navigate("/home2");
+          });
+        } else if (data.roles.includes("MANAGEMENT")) {
+          Swal.fire({
+            title: "Login Successful!",
+            text: "Welcome, Management!",
+            icon: "success",
+            confirmButtonText: "OK",
+          }).then(() => {
+            navigate("/home5");
+          });
+        } else if (data.roles.includes("GATE_USER")) {
+          Swal.fire({
+            title: "Login Successful!",
+            text: "Welcome, Gate User!",
+            icon: "success",
+            confirmButtonText: "OK",
+          }).then(() => {
+            navigate("/home3");
           });
         } else {
           Swal.fire({
@@ -52,30 +84,25 @@ const LoginUser = () => {
       });
     }
   };
+
   return (
     <div className="login-page">
-      {" "}
       <div className="login-container">
-        {" "}
         <div className="login-content">
-          {" "}
           <h1 className="login-title" style={{ backgroundColor: "white" }}>
-            {" "}
-            Weighbridge Management System{" "}
-          </h1>{" "}
+            Weighbridge Management System
+          </h1>
           <img
             src="https://www.seewise.ai/assets/img/landing/weighbridge.jpg"
             alt="Truck"
             className="login-truck-image"
-          />{" "}
+          />
           <form
             onSubmit={handleSubmit}
             className="login-form"
             style={{ backgroundColor: "white" }}
           >
-            {" "}
             <div className="form-group">
-              {" "}
               <input
                 type="text"
                 placeholder="User Id"
@@ -83,10 +110,9 @@ const LoginUser = () => {
                 onChange={(e) => setUserId(e.target.value)}
                 className="form-control login-input"
                 required
-              />{" "}
-            </div>{" "}
+              />
+            </div>
             <div className="form-group">
-              {" "}
               <input
                 type="password"
                 placeholder="Password"
@@ -94,24 +120,23 @@ const LoginUser = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-control login-input"
                 required
-              />{" "}
-            </div>{" "}
+              />
+            </div>
             <button type="submit" className="btn btn-primary login-btn">
-              {" "}
-              Sign In{" "}
-            </button>{" "}
+              Sign In
+            </button>
             <a
               href="#"
               className="login-forgot-password"
               style={{ backgroundColor: "white" }}
             >
-              {" "}
-              Forgot Password?{" "}
-            </a>{" "}
-          </form>{" "}
-        </div>{" "}
-      </div>{" "}
+              Forgot Password?
+            </a>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
+
 export default LoginUser;
