@@ -1,15 +1,10 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faUserFriends,
-  faBars,
-  faPencilAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import "./ManageUser.css";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../SideBar/SideBar";
+import Header from "../Header/Header";
 
 function ManageUser() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -45,57 +40,12 @@ function ManageUser() {
 
   return (
     <div className="ViewUser">
-      <div className="report-header d-flex justify-content-between align-items-center">
-        <FontAwesomeIcon
-          icon={faBars}
-          className="daily_report_icon mt-2 me-3 sidebar-toggle-btn"
-          onClick={toggleSidebar}
-        />
-        <h2 className="report-header-title text-center mt-3 d-flex align-content-center">
-          MAINTAIN USER
-        </h2>
-        <FontAwesomeIcon
-          icon={faHome}
-          className="daily_report_icon mt-2 me-2"
-        />
-      </div>
+      <Header toggleSidebar={toggleSidebar} />
 
-      <div className={`home-sidebar ${isSidebarExpanded ? "expanded" : ""}`}>
-        <div className="sidebar-item dropdown">
-          <Link
-            to="/"
-            className="d-flex align-items-center"
-            id="usersDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            style={{ textDecoration: "none" }}
-          >
-            <FontAwesomeIcon icon={faUserFriends} className="sidebar-icon" />
-            <span className="sidebar-item-text">User Management</span>
-          </Link>
-          <ul
-            className="dropdown-menu dropdown-menu-dark"
-            aria-labelledby="usersDropdown"
-          >
-            <li>
-              <Link className="dropdown-item" to="/">
-                Create User
-              </Link>
-            </li>
-            <li>
-              <Link className="dropdown-item" to="/manage-user">
-                Maintain User
-              </Link>
-            </li>
-            {/* <li>
-              <Link className="dropdown-item" to="/view-users">
-                View Users
-              </Link>
-            </li> */}
-          </ul>
-        </div>
-      </div>
+      <Sidebar
+        isSidebarExpanded={isSidebarExpanded}
+        toggleSidebar={toggleSidebar}
+      />
 
       <div
         className={`create-main-content ${isSidebarExpanded ? "expanded" : ""}`}
@@ -126,7 +76,7 @@ function ManageUser() {
                     <td>{user.firstName}</td>
                     <td>{user.middleName}</td>
                     <td>{user.lastName}</td>
-                    <td>{user.role}</td>
+                    <td>{user.role.join(", ")}</td>
                     <td>{user.emailId}</td>
                     <td>{user.contactNo}</td>
                     <td>{user.company}</td>

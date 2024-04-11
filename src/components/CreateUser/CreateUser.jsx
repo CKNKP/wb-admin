@@ -1,46 +1,31 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faTimes,
-  faUserFriends,
-  faBars,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import "./CreateUser.css";
-import { Link } from "react-router-dom";
+import Sidebar from "../SideBar/SideBar";
+import Header from "../Header/Header";
 
 function CreateUser() {
-  const [userId, setuserId] = useState("");
-  const [role, setRole] = useState([]);
+  // const [userId, setuserId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [role, setRole] = useState([]);
   const [emailId, setemailId] = useState("");
   const [password, setPassword] = useState("");
   const [contactNo, setcontactNo] = useState("");
   const [company, setcompany] = useState("");
   const [site, setsite] = useState("");
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
-  // console.log(
-  //   role,
-  //   userId,
-  //   firstName,
-  //   middleName,
-  //   lastName,
-  //   emailId,
-  //   password,
-  //   contactNo,
-  //   company,
-  //   site
-  // );
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleCancel = () => {
-    setuserId("");
-    setRole([]);
+    // setuserId("");
     setFirstName("");
     setMiddleName("");
     setLastName("");
+    setRole([]);
     setemailId("");
     setPassword("");
     setcontactNo("");
@@ -52,13 +37,18 @@ function CreateUser() {
     setIsSidebarExpanded(!isSidebarExpanded);
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSave = () => {
     if (
-      userId.trim() === "" ||
+      // userId.trim() === "" ||
       password.trim() === "" ||
       role.length === 0 ||
       company.trim() === "" ||
-      site.trim() === ""
+      site.trim() === "" ||
+      contactNo.trim() === ""
     ) {
       Swal.fire({
         title: "Please fill in all the required fields.",
@@ -72,16 +62,16 @@ function CreateUser() {
     }
 
     const userData = {
-      userId,
+      // userId,
+      firstName,
+      middleName,
+      lastName,
       site,
       company,
       emailId,
       password,
       contactNo,
       role,
-      firstName,
-      middleName,
-      lastName,
     };
 
     fetch("http://localhost:8080/api/v1/users", {
@@ -93,27 +83,40 @@ function CreateUser() {
     })
       .then((response) => {
         if (response.ok) {
-          return response.json();
+          // Check if the response is JSON or text
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            // If the response is JSON, parse it as JSON
+            return response.json();
+          } else {
+            // If the response is text, return the text
+            return response.text();
+          }
         }
         throw new Error("Network response was not ok.");
       })
       .then((data) => {
+        // Determine the title for the SweetAlert modal
+        const title =
+          typeof data === "string" ? data : "User Created Successfully!";
+
+        // Show SweetAlert modal with the determined title
         Swal.fire({
-          title: "User Created Successfully!",
+          title: title,
           icon: "success",
           confirmButtonText: "OK",
           customClass: {
             confirmButton: "btn btn-success",
           },
         });
-
-        handleCancel();
       })
       .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
+        // Handle errors
+        console.error("Error:", error);
+        // Optionally, show an error message to the user
         Swal.fire({
           title: "Error",
-          text: "An error occurred while creating the user. Please try again later.",
+          text: error.message,
           icon: "error",
           confirmButtonText: "OK",
           customClass: {
@@ -147,61 +150,17 @@ function CreateUser() {
 
   return (
     <div className="create-user">
-      <div className="report-header d-flex justify-content-between align-items-center">
-        <FontAwesomeIcon
-          icon={faBars}
-          className="daily_report_icon mt-2 me-3 sidebar-toggle-btn"
-          onClick={toggleSidebar}
-        />
-        <h2 className="report-header-title text-center mt-3 d-flex align-content-center">
-          CREATE USER
-        </h2>
-        <FontAwesomeIcon
-          icon={faHome}
-          className="daily_report_icon mt-2 me-2"
-        />
-      </div>
+      <Header toggleSidebar={toggleSidebar} />
 
-      <div className={`home-sidebar ${isSidebarExpanded ? "expanded" : ""}`}>
-        <div className="sidebar-item dropdown">
-          <Link
-            to="/"
-            className="d-flex align-items-center"
-            id="usersDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            style={{ textDecoration: "none" }}
-          >
-            <FontAwesomeIcon icon={faUserFriends} className="sidebar-icon" />
-            <span className="sidebar-item-text">User Management</span>
-          </Link>
-          <ul
-            className="dropdown-menu dropdown-menu-dark"
-            aria-labelledby="usersDropdown"
-          >
-            <li>
-              <Link className="dropdown-item" to="/">
-                Create User
-              </Link>
-            </li>
-            <li>
-              <Link className="dropdown-item" to="/manage-user">
-                Maintain User
-              </Link>
-            </li>
-            {/* <li>
-              <Link className="dropdown-item" to="/view-users">
-                View Users
-              </Link>
-            </li> */}
-          </ul>
-        </div>
-      </div>
+      <Sidebar
+        isSidebarExpanded={isSidebarExpanded}
+        toggleSidebar={toggleSidebar}
+      />
 
       <div
         className={`create-main-content ${isSidebarExpanded ? "expanded" : ""}`}
       >
+        <h2 className="text-center">Create User</h2>
         <div className="create-user-container">
           <div className="card create-user-form">
             <div
@@ -210,20 +169,56 @@ function CreateUser() {
             >
               <form>
                 <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="userId" className="form-label">
-                      User ID
+                  <div className="col-md-4">
+                    <label htmlFor="firstName" className="form-label">
+                      First Name
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="userId"
-                      placeholder="Enter User ID"
-                      value={userId}
-                      onChange={(e) => setuserId(e.target.value)}
+                      id="firstName"
+                      placeholder="Enter First Name"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
                       required
                     />
                   </div>
+                  <div className="col-md-4">
+                    <label htmlFor="middleName" className="form-label">
+                      Middle Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="middleName"
+                      placeholder="Enter Middle Name"
+                      value={middleName}
+                      onChange={(e) => setMiddleName(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <label htmlFor="lastName" className="form-label">
+                      Last Name
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="lastName"
+                      placeholder="Enter Last Name"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="role" className="form-label">
                       Role
@@ -327,53 +322,6 @@ function CreateUser() {
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="firstName" className="form-label">
-                      First Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="firstName"
-                      placeholder="Enter First Name"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label htmlFor="middleName" className="form-label">
-                      Middle Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="middleName"
-                      placeholder="Enter Middle Name"
-                      value={middleName}
-                      onChange={(e) => setMiddleName(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="lastName" className="form-label">
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="lastName"
-                      placeholder="Enter Last Name"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="emailId" className="form-label">
                       Email Id
@@ -387,26 +335,64 @@ function CreateUser() {
                       onChange={(e) => setemailId(e.target.value)}
                     />
                   </div>
+                </div>
+
+                <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="password" className="form-label">
                       Password
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
+                    </label>
+                    <div className="input-group">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className="form-control"
+                        id="password"
+                        placeholder="Enter Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        autoComplete="username"
+                      />
+                      <button
+                        className="btn btn-outline-secondary"
+                        type="button"
+                        onClick={toggleShowPassword}
+                      >
+                        <FontAwesomeIcon
+                          icon={showPassword ? faEyeSlash : faEye}
+                        />
+                      </button>
+                    </div>
+                  </div>
+                  {/* <div className="col-md-6">
+                    <label htmlFor="userId" className="form-label">
+                      User ID
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
                     </label>
                     <input
-                      type="password"
+                      type="text"
                       className="form-control"
-                      id="password"
-                      placeholder="Enter Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      id="userId"
+                      placeholder="Enter User ID"
+                      value={userId}
+                      onChange={(e) => setuserId(e.target.value)}
                       required
-                      autoComplete="username"
                     />
-                  </div>
+                  </div> */}
                 </div>
+
                 <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor=" contactNo" className="form-label">
                       Mobile Number
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
                     </label>
                     <input
                       type="tel"
@@ -420,6 +406,9 @@ function CreateUser() {
                   <div className="col-md-6">
                     <label htmlFor="company" className="form-label">
                       Company Name
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
                     </label>
                     <select
                       className="form-select"
@@ -435,10 +424,14 @@ function CreateUser() {
                     </select>
                   </div>
                 </div>
+
                 <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="site" className="form-label">
                       Site Name
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
                     </label>
                     <select
                       className="form-select"
@@ -449,40 +442,41 @@ function CreateUser() {
                     >
                       <option value="">Select Site Name</option>
                       <option value="BBSR">Bhubaneswar</option>
-                      <option value="ROURKELA">Rourkela</option>
+                      <option value="Rourkela">Rourkela</option>
                       <option value="CTC">Cuttack</option>
                     </select>
                   </div>
                 </div>
+
+                <div className="d-flex justify-content-center mt-5">
+                  <button
+                    type="button"
+                    className="btn btn-danger me-4 btn-hover"
+                    style={{
+                      backgroundColor: "red",
+                      color: "white",
+                      fontWeight: "bold",
+                      transition: "transform 0.3s ease-in-out",
+                    }}
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-success-1 btn-hover"
+                    style={{
+                      backgroundColor: "green",
+                      color: "white",
+                      fontWeight: "bold",
+                      transition: "transform 0.3s ease-in-out",
+                    }}
+                    onClick={handleSave}
+                  >
+                    Save
+                  </button>
+                </div>
               </form>
-              <div className="d-flex justify-content-center mt-5">
-                <button
-                  type="button"
-                  className="btn btn-danger me-4 btn-hover"
-                  style={{
-                    backgroundColor: "red",
-                    color: "white",
-                    fontWeight: "bold",
-                    transition: "transform 0.3s ease-in-out",
-                  }}
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success-1 btn-hover"
-                  style={{
-                    backgroundColor: "green",
-                    color: "white",
-                    fontWeight: "bold",
-                    transition: "transform 0.3s ease-in-out",
-                  }}
-                  onClick={handleSave}
-                >
-                  Save
-                </button>
-              </div>
             </div>
           </div>
         </div>

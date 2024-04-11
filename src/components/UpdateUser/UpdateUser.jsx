@@ -1,16 +1,12 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faTimes,
-  faUserFriends,
-  faBars,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import "./UpdateUser.css";
-import { Link } from "react-router-dom";
+import Sidebar from "../SideBar/SideBar";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Header from "../Header/Header";
 
 function UpdateUser() {
   const location = useLocation();
@@ -21,10 +17,11 @@ function UpdateUser() {
   const [middleName, setMiddleName] = useState(user.middleName);
   const [lastName, setLastName] = useState(user.lastName);
   const [emailId, setemailId] = useState(user.emailId);
-  const [password, setPassword] = useState(user.password);
+
   const [contactNo, setcontactNo] = useState(user.contactNo);
   const [company, setcompany] = useState(user.company);
   const [site, setsite] = useState(user.site);
+  // const [status, setStatus] = useState(user.status);
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   // console.log(
@@ -41,16 +38,7 @@ function UpdateUser() {
   // );
   const navigate = useNavigate();
   const handleCancel = () => {
-    setuserId("");
-    setRole([]);
-    setFirstName("");
-    setMiddleName("");
-    setLastName("");
-    setemailId("");
-    setPassword("");
-    setcontactNo("");
-    setcompany("");
-    setsite("");
+    navigate("/manage-user");
   };
 
   const toggleSidebar = () => {
@@ -67,28 +55,40 @@ function UpdateUser() {
     })
       .then((response) => {
         if (response.ok) {
-          console.log(response);
-          return response.json();
+          // Check if the response is JSON or text
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            // If the response is JSON, parse it as JSON
+            return response.json();
+          } else {
+            // If the response is text, return the text
+            return response.text();
+          }
         }
         throw new Error("Network response was not ok.");
       })
       .then((data) => {
+        // Determine the title for the SweetAlert modal
+        const title =
+          typeof data === "string" ? data : "User Updated Successfully!";
+
+        navigate("/manage-user");
         Swal.fire({
-          title: "User Updated Successfully!",
+          title: title,
           icon: "success",
           confirmButtonText: "OK",
           customClass: {
             confirmButton: "btn btn-success",
           },
         });
-        navigate("/manage-user");
-        handleCancel();
       })
       .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
+        // Handle errors
+        console.error("Error:", error);
+        // Optionally, show an error message to the user
         Swal.fire({
           title: "Error",
-          text: "An error occurred while creating the user. Please try again later.",
+          text: error.message,
           icon: "error",
           confirmButtonText: "OK",
           customClass: {
@@ -103,7 +103,6 @@ function UpdateUser() {
     site,
     company,
     emailId,
-    password,
     contactNo,
     role,
     firstName,
@@ -137,57 +136,12 @@ function UpdateUser() {
 
   return (
     <div className="create-user">
-      <div className="report-header d-flex justify-content-between align-items-center">
-        <FontAwesomeIcon
-          icon={faBars}
-          className="daily_report_icon mt-2 me-3 sidebar-toggle-btn"
-          onClick={toggleSidebar}
-        />
-        <h2 className="report-header-title text-center mt-3 d-flex align-content-center">
-          UPDATE USER
-        </h2>
-        <FontAwesomeIcon
-          icon={faHome}
-          className="daily_report_icon mt-2 me-2"
-        />
-      </div>
+      <Header toggleSidebar={toggleSidebar} />
 
-      <div className={`home-sidebar ${isSidebarExpanded ? "expanded" : ""}`}>
-        <div className="sidebar-item dropdown">
-          <Link
-            to="/"
-            className="d-flex align-items-center"
-            id="usersDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            style={{ textDecoration: "none" }}
-          >
-            <FontAwesomeIcon icon={faUserFriends} className="sidebar-icon" />
-            <span className="sidebar-item-text">User Management</span>
-          </Link>
-          <ul
-            className="dropdown-menu dropdown-menu-dark"
-            aria-labelledby="usersDropdown"
-          >
-            <li>
-              <Link className="dropdown-item" to="/">
-                Create User
-              </Link>
-            </li>
-            <li>
-              <Link className="dropdown-item" to="/manage-user">
-                Maintain User
-              </Link>
-            </li>
-            {/* <li>
-              <Link className="dropdown-item" to="/view-users">
-                View Users
-              </Link>
-            </li> */}
-          </ul>
-        </div>
-      </div>
+      <Sidebar
+        isSidebarExpanded={isSidebarExpanded}
+        toggleSidebar={toggleSidebar}
+      />
 
       <div
         className={`create-main-content ${isSidebarExpanded ? "expanded" : ""}`}
@@ -378,36 +332,6 @@ function UpdateUser() {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label htmlFor="password" className="form-label">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      placeholder="Enter Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      autoComplete="username"
-                    />
-                  </div>
-                </div>
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor=" contactNo" className="form-label">
-                      Mobile Number
-                    </label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id=" contactNo"
-                      placeholder="Enter Mobile Number"
-                      value={contactNo}
-                      onChange={(e) => setcontactNo(e.target.value)}
-                    />
-                  </div>
-                  <div className="col-md-6">
                     <label htmlFor="company" className="form-label">
                       Company Name
                     </label>
@@ -426,6 +350,20 @@ function UpdateUser() {
                   </div>
                 </div>
                 <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor=" contactNo" className="form-label">
+                      Mobile Number
+                    </label>
+                    <input
+                      type="tel"
+                      className="form-control"
+                      id=" contactNo"
+                      placeholder="Enter Mobile Number"
+                      value={contactNo}
+                      onChange={(e) => setcontactNo(e.target.value)}
+                    />
+                  </div>
+
                   <div className="col-md-6">
                     <label htmlFor="site" className="form-label">
                       Site Name
@@ -463,7 +401,7 @@ function UpdateUser() {
                   type="button"
                   className="btn btn-success btn-hover"
                   style={{
-                    backgroundColor: "#EDBC17",
+                    backgroundColor: "green",
                     color: "white",
                     fontWeight: "bold",
                     transition: "transform 0.3s ease-in-out",

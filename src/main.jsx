@@ -12,11 +12,13 @@ import CreateUser from "./components/CreateUser/CreateUser.jsx";
 import ManageUser from "./components/ManageUser/ManageUser.jsx";
 import ViewUser from "./components/ViewUser/ViewUser.jsx";
 import UpdateUser from "./components/UpdateUser/UpdateUser.jsx";
+import LoginUser from "./components/Login/LoginUser.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/" element={<CreateUser />} />
+      <Route path="/" element={<LoginUser />} />
+      <Route path="/create-user" element={<CreateUser />} />
       <Route path="/manage-user" element={<ManageUser />} />
       <Route path="/view-users" element={<ViewUser />} />
       <Route path="/update-user" element={<UpdateUser />} />
@@ -25,7 +27,5 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <RouterProvider router={router} />
 );
