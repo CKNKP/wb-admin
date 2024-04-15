@@ -1,4 +1,5 @@
-import Sidebar from "../SideBar/SideBar";
+// import SideBar from "../SideBar/SideBar";
+import SideBar2 from "../SideBar/SideBar2";
 import Header from "../Header/Header";
 import { useState, useEffect, useRef } from "react";
 import { Pie } from "react-chartjs-2";
@@ -41,7 +42,12 @@ function HomePage2() {
     <div>
       <Header toggleSidebar={toggleSidebar} />
 
-      <Sidebar
+      {/* <SideBar
+        isSidebarExpanded={isSidebarExpanded}
+        toggleSidebar={toggleSidebar}
+      /> */}
+
+      <SideBar2
         isSidebarExpanded={isSidebarExpanded}
         toggleSidebar={toggleSidebar}
       />

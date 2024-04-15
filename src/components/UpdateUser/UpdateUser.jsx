@@ -357,7 +357,7 @@ function UpdateUser() {
                       required
                     >
                       <option value="">Select Company Name</option>
-                      <option value="Vikram">Vikram private Ltd.</option>
+                      <option value="Vikram">Vikram</option>
                       <option value="Highlander">Highlander</option>
                       <option value="Rider">Rider</option>
                     </select>

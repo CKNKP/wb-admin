@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import "./CreateUser.css";
 import Sidebar from "../SideBar/SideBar";
@@ -13,12 +13,41 @@ function CreateUser() {
   const [lastName, setLastName] = useState("");
   const [role, setRole] = useState([]);
   const [emailId, setemailId] = useState("");
-  const [password, setPassword] = useState("");
   const [contactNo, setcontactNo] = useState("");
   const [company, setcompany] = useState("");
   const [site, setsite] = useState("");
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [companies, setCompanies] = useState([]);
+  const [sites, setSites] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/v1/company/get/list")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Company List:", data);
+        setCompanies(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching company list:", error);
+      });
+  }, []);
+
+  const handleCompanyChange = (e) => {
+    setcompany(e.target.value);
+
+    fetch(`http://localhost:8080/api/v1/sites/company/${e.target.value}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Site List:", data);
+        const formattedSites = data.map((site) => ({
+          site: `${site.siteName},${site.siteAddress}`,
+        }));
+        setSites(formattedSites);
+      })
+      .catch((error) => {
+        console.error("Error fetching site list:", error);
+      });
+  };
 
   const handleCancel = () => {
     // setuserId("");
@@ -27,7 +56,7 @@ function CreateUser() {
     setLastName("");
     setRole([]);
     setemailId("");
-    setPassword("");
+
     setcontactNo("");
     setcompany("");
     setsite("");
@@ -37,14 +66,9 @@ function CreateUser() {
     setIsSidebarExpanded(!isSidebarExpanded);
   };
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
   const handleSave = () => {
     if (
       // userId.trim() === "" ||
-      password.trim() === "" ||
       role.length === 0 ||
       company.trim() === "" ||
       site.trim() === "" ||
@@ -69,7 +93,6 @@ function CreateUser() {
       site,
       company,
       emailId,
-      password,
       contactNo,
       role,
     };
@@ -233,36 +256,6 @@ function CreateUser() {
                     />
                   </div>
 
-                  <div className="col-md-6">
-                    <label htmlFor="password" className="form-label">
-                      Password
-                      <span style={{ color: "red", fontWeight: "bold" }}>
-                        *
-                      </span>
-                    </label>
-                    <div className="input-group">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        className="form-control"
-                        id="password"
-                        placeholder="Enter Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        autoComplete="username"
-                      />
-                      <button
-                        className="btn btn-outline-secondary"
-                        type="button"
-                        onClick={toggleShowPassword}
-                      >
-                        <FontAwesomeIcon
-                          icon={showPassword ? faEyeSlash : faEye}
-                        />
-                      </button>
-                    </div>
-                  </div>
-
                   <div className="row mb-3"></div>
                   {/* <div className="col-md-6">
                     <label htmlFor="userId" className="form-label">
@@ -418,13 +411,15 @@ function CreateUser() {
                       className="form-select"
                       id="company"
                       value={company}
-                      onChange={(e) => setcompany(e.target.value)}
+                      onChange={handleCompanyChange}
                       required
                     >
                       <option value="">Select Company Name</option>
-                      <option value="Vikram">Vikram private Ltd.</option>
-                      <option value="Highlander">Highlander</option>
-                      <option value="Rider">Rider</option>
+                      {companies.map((c, index) => (
+                        <option key={index} value={c}>
+                          {c}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -443,9 +438,11 @@ function CreateUser() {
                       required
                     >
                       <option value="">Select Site Name</option>
-                      <option value="BBSR">Bhubaneswar</option>
-                      <option value="Rourkela">Rourkela</option>
-                      <option value="CTC">Cuttack</option>
+                      {sites.map((s, index) => (
+                        <option key={index} value={s.site}>
+                          {s.site}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
