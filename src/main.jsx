@@ -16,6 +16,7 @@ import LoginUser from "./components/Login/LoginUser.jsx";
 import HomePage2 from "./components/HomePages/HomePage2.jsx";
 import HomePage3 from "./components/HomePages/HomePage3.jsx";
 import HomePage5 from "./components/HomePages/HomePage5.jsx";
+import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       <Route path="/home2" element={<HomePage2 />} />
       <Route path="/home3" element={<HomePage3 />} />
       <Route path="/home5" element={<HomePage5 />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
     </Route>
   )
 );

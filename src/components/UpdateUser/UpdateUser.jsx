@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
@@ -22,7 +22,46 @@ function UpdateUser() {
   const [site, setsite] = useState(user.site);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [status, setStatus] = useState(user.status);
+  const [companies, setCompanies] = useState([]);
+  const [sites, setSites] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch company list
+    fetch("http://localhost:8080/api/v1/company/get/list")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Company List:", data);
+        setCompanies(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching company list:", error);
+      });
+
+    // Fetch initial site list for the user's company
+    fetchSiteList(user.company);
+  }, [user.company]);
+
+  const fetchSiteList = (selectedCompany) => {
+    fetch(`http://localhost:8080/api/v1/sites/company/${selectedCompany}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Site List:", data);
+        const formattedSites = data.map((site) => ({
+          site: `${site.siteName},${site.siteAddress}`,
+          siteId: site.siteId,
+        }));
+        setSites(formattedSites);
+      })
+      .catch((error) => {
+        console.error("Error fetching site list:", error);
+      });
+  };
+
+  const handleCompanyChange = (e) => {
+    setcompany(e.target.value);
+    fetchSiteList(e.target.value);
+  };
 
   const handleCancel = () => {
     navigate("/manage-user");
@@ -33,6 +72,18 @@ function UpdateUser() {
   };
 
   const handleSave = () => {
+    const userData = {
+      userId,
+      site,
+      company,
+      emailId,
+      contactNo,
+      role,
+      firstName,
+      middleName,
+      lastName,
+    };
+
     fetch(`http://localhost:8080/api/v1/users/updateUser/${user.userId}`, {
       method: "PUT",
       headers: {
@@ -83,18 +134,6 @@ function UpdateUser() {
           },
         });
       });
-  };
-
-  const userData = {
-    userId,
-    site,
-    company,
-    emailId,
-    contactNo,
-    role,
-    firstName,
-    middleName,
-    lastName,
   };
 
   const handleRoleChange = (selectedRole) => {
@@ -344,7 +383,6 @@ function UpdateUser() {
                       onChange={(e) => setcontactNo(e.target.value)}
                     />
                   </div>
-
                   <div className="col-md-6">
                     <label htmlFor="company" className="form-label">
                       Company Name
@@ -353,13 +391,15 @@ function UpdateUser() {
                       className="form-select"
                       id="company"
                       value={company}
-                      onChange={(e) => setcompany(e.target.value)}
+                      onChange={handleCompanyChange}
                       required
                     >
                       <option value="">Select Company Name</option>
-                      <option value="Vikram">Vikram</option>
-                      <option value="Highlander">Highlander</option>
-                      <option value="Rider">Rider</option>
+                      {companies.map((c, index) => (
+                        <option key={index} value={c}>
+                          {c}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -377,9 +417,11 @@ function UpdateUser() {
                       required
                     >
                       <option value="">Select Site Name</option>
-                      <option value="BBSR">Bhubaneswar</option>
-                      <option value="Rourkela">Rourkela</option>
-                      <option value="CTC">Cuttack</option>
+                      {sites.map((s, index) => (
+                        <option key={index} value={s.siteId}>
+                          {s.site}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>

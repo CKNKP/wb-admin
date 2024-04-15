@@ -21,7 +21,15 @@ const LoginUser = () => {
 
       if (response.ok) {
         const data = await response.json();
-        if (data.roles.includes("ADMIN")) {
+        if (data.message === "please reset your password.") {
+          Swal.fire({
+            title: data.message,
+            text: "Please reset your password.",
+            icon: "info",
+            confirmButtonText: "OK",
+          });
+          navigate("/reset-password", { state: { userId } });
+        } else if (data.roles.includes("ADMIN")) {
           Swal.fire({
             title: "Login Successful!",
             text: "Welcome, Admin!",
@@ -125,13 +133,13 @@ const LoginUser = () => {
             <button type="submit" className="btn btn-primary login-btn">
               Sign In
             </button>
-            <a
+            {/* <a
               href="#"
               className="login-forgot-password"
               style={{ backgroundColor: "white" }}
             >
               Forgot Password?
-            </a>
+            </a> */}
           </form>
         </div>
       </div>
