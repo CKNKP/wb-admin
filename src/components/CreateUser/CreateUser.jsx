@@ -299,7 +299,11 @@ function CreateUser() {
                   <div className="col-md-6">
                     <label htmlFor="role" className="form-label">
                       Role
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
                     </label>
+
                     <div className="d-flex gap-2">
                       <div className="d-flex flex-wrap gap-2">
                         {role.map((r, index) => (
@@ -324,6 +328,7 @@ function CreateUser() {
                         >
                           Select Roles
                         </button>
+
                         <ul
                           className="dropdown-menu"
                           aria-labelledby="dropdownRole"
