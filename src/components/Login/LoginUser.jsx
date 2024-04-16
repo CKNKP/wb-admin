@@ -36,7 +36,7 @@ const LoginUser = () => {
             icon: "success",
             confirmButtonText: "OK",
           }).then(() => {
-            navigate("/create-user");
+            navigate("/home1");
           });
         } else if (data.roles.includes("QUALITY_USER")) {
           Swal.fire({

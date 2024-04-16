@@ -246,6 +246,7 @@ function CreateUser() {
                     <label htmlFor="emailId" className="form-label">
                       Email Id
                     </label>
+                    <span style={{ color: "red", fontWeight: "bold" }}>*</span>
                     <input
                       type="emailId"
                       className="form-control"
@@ -253,6 +254,7 @@ function CreateUser() {
                       placeholder="Enter email address"
                       value={emailId}
                       onChange={(e) => setemailId(e.target.value)}
+                      required
                     />
                   </div>
 
