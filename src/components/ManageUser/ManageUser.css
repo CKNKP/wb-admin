@@ -94,3 +94,7 @@ label {
 .table tbody tr:hover {
   background-color: #e9ecef;
 }
+
+.size-input {
+  width: 5%;
+}

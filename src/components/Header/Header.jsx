@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faBars } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 import "./Header.css";
 
 function Header({ toggleSidebar }) {
@@ -11,13 +12,15 @@ function Header({ toggleSidebar }) {
         className="daily_report_icon mt-2 me-3 sidebar-toggle-btn"
         onClick={toggleSidebar}
       />
-      <h2 className="report-header-title text-center mt-3 d-flex align-content-center">
+      <h2 className="report-header-title text-center mt-3">
         WEIGHBRIDGE MANAGEMENT SYSTEM
       </h2>
-      <FontAwesomeIcon
-        icon={faHome}
-        className="daily_report_icon mt-2 me-2 home-toggle-btn"
-      />
+      <Link to="/home1">
+        <FontAwesomeIcon
+          icon={faHome}
+          className="daily_report_icon mt-2 me-2 home-toggle-btn"
+        />
+      </Link>
     </div>
   );
 }

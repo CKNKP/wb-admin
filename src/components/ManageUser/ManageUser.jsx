@@ -9,7 +9,8 @@ import Header from "../Header/Header";
 function ManageUser() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [users, setUsers] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -20,38 +21,49 @@ function ManageUser() {
     navigate("/update-user", { state: user });
   };
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/v1/users");
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const data = await response.json();
-
-        setUsers(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+  const fetchUserData = async (page, size) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/v1/users?page=${page}&size=${size}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
       }
-    };
+      const data = await response.json();
+      setUsers(data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
-    fetchUserData();
-  }, []);
+  useEffect(() => {
+    fetchUserData(currentPage, itemsPerPage);
+  }, [currentPage, itemsPerPage]); // Depend on currentPage and itemsPerPage
+
+  // Function to handle page change
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  // Function to handle items per page change
+  const handleItemsPerPageChange = (e) => {
+    const newSize = parseInt(e.target.value, 10);
+    if (!isNaN(newSize) && newSize > 0) {
+      setItemsPerPage(newSize);
+    }
+  };
 
   return (
     <div className="ViewUser">
       <Header toggleSidebar={toggleSidebar} />
-
       <Sidebar
         isSidebarExpanded={isSidebarExpanded}
         toggleSidebar={toggleSidebar}
       />
-
       <div
         className={`create-main-content ${isSidebarExpanded ? "expanded" : ""}`}
       >
         <h2 className="text-center">Maintain User</h2>
-
         <div className="create-user-container">
           <div className="table-responsive-xl table-responsive-md table-responsive-lg table-responsive-sm table-responsive-xxl mt-3">
             <table className="table table-bordered table-striped">
@@ -70,7 +82,6 @@ function ManageUser() {
                   <th scope="col">Action</th>
                 </tr>
               </thead>
-
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id}>
@@ -97,6 +108,28 @@ function ManageUser() {
               </tbody>
             </table>
           </div>
+        </div>
+        <div className="d-flex justify-content-center gap-4 m-3 mb-3">
+          <button
+            className="btn btn-primary"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 0}
+          >
+            Previous
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            Next
+          </button>
+          <input
+            type="number"
+            className="form-control size-input"
+            value={itemsPerPage}
+            onChange={handleItemsPerPageChange}
+            min="1"
+          />
         </div>
       </div>
     </div>

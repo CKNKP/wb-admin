@@ -65,6 +65,15 @@ const LoginUser = () => {
           }).then(() => {
             navigate("/home3");
           });
+          // } else if (data.roles.includes("WEIGHBRIDGE_OPERATOR")) {
+          //   Swal.fire({
+          //     title: "Login Successful!",
+          //     text: "Welcome, Weighbridge Operator!",
+          //     icon: "success",
+          //     confirmButtonText: "OK",
+          //   }).then(() => {
+          //     navigate("/home6");
+          //   });
         } else {
           Swal.fire({
             title: "Login Successful!",
