@@ -9,23 +9,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import "./SideBar.css";
-
 const Sidebar = ({ isSidebarExpanded, toggleSidebar }) => {
   const [isUserManagementOpen, setIsUserManagementOpen] = useState(false);
-
   const handleUserManagementClick = () => {
     if (!isSidebarExpanded) {
       toggleSidebar();
     }
     setIsUserManagementOpen(!isUserManagementOpen);
   };
-
   const handleSidebarItemClick = () => {
     if (!isSidebarExpanded) {
       toggleSidebar();
     }
   };
-
   return (
     <div className={`home-sidebar ${isSidebarExpanded ? "expanded" : ""}`}>
       <div
@@ -39,10 +35,7 @@ const Sidebar = ({ isSidebarExpanded, toggleSidebar }) => {
           style={{ cursor: "pointer" }}
         >
           <FontAwesomeIcon icon={faUserFriends} className="sidebar-icon" />
-          <span
-            className="sidebar-item-text text-center m-1"
-            style={{ marginLeft: "5px" }}
-          >
+          <span className="sidebar-item-text text-center m-1">
             User Management
           </span>
           <FontAwesomeIcon
@@ -77,7 +70,7 @@ const Sidebar = ({ isSidebarExpanded, toggleSidebar }) => {
       >
         <FontAwesomeIcon icon={faTruck} className="sidebar-icon mt-1" />
         <span className="sidebar-item-text text-center mt-1">
-          Vehicle Master
+          Vehicle Management
         </span>
       </div>
       <div
@@ -102,5 +95,4 @@ const Sidebar = ({ isSidebarExpanded, toggleSidebar }) => {
     </div>
   );
 };
-
 export default Sidebar;
