@@ -10,7 +10,7 @@ function ManageUser() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [itemsPerPageText, setItemsPerPageText] = useState("6");
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -37,8 +37,11 @@ function ManageUser() {
   };
 
   useEffect(() => {
-    fetchUserData(currentPage, itemsPerPage);
-  }, [currentPage, itemsPerPage]); // Depend on currentPage and itemsPerPage
+    const itemsPerPage = parseInt(itemsPerPageText, 10);
+    if (!isNaN(itemsPerPage) && itemsPerPage > 0) {
+      fetchUserData(currentPage, itemsPerPage);
+    }
+  }, [currentPage, itemsPerPageText]); // Depend on currentPage and itemsPerPage
 
   // Function to handle page change
   const handlePageChange = (newPage) => {
@@ -47,10 +50,7 @@ function ManageUser() {
 
   // Function to handle items per page change
   const handleItemsPerPageChange = (e) => {
-    const newSize = parseInt(e.target.value, 10);
-    if (!isNaN(newSize) && newSize > 0) {
-      setItemsPerPage(newSize);
-    }
+    setItemsPerPageText(e.target.value);
   };
 
   return (
@@ -124,11 +124,10 @@ function ManageUser() {
             Next
           </button>
           <input
-            type="number"
+            type="text"
             className="form-control size-input"
-            value={itemsPerPage}
+            value={itemsPerPageText}
             onChange={handleItemsPerPageChange}
-            min="1"
           />
         </div>
       </div>

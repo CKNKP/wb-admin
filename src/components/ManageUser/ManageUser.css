@@ -96,5 +96,11 @@ label {
 }
 
 .size-input {
-  width: 5%;
+  width: 200%;
+}
+
+@media (min-width: 768px) {
+  .size-input {
+    width: 5%;
+  }
 }

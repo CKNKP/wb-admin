@@ -97,6 +97,8 @@ function CreateUser() {
       role,
     };
 
+    console.log("Payload sent to the API:", userData);
+
     fetch("http://localhost:8080/api/v1/users", {
       method: "POST",
       headers: {
