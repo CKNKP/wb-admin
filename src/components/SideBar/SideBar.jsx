@@ -9,19 +9,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import "./SideBar.css";
+
 const Sidebar = ({ isSidebarExpanded, toggleSidebar }) => {
   const [isUserManagementOpen, setIsUserManagementOpen] = useState(false);
+
   const handleUserManagementClick = () => {
     if (!isSidebarExpanded) {
       toggleSidebar();
     }
     setIsUserManagementOpen(!isUserManagementOpen);
   };
+
   const handleSidebarItemClick = () => {
     if (!isSidebarExpanded) {
       toggleSidebar();
     }
   };
+
   return (
     <div className={`home-sidebar ${isSidebarExpanded ? "expanded" : ""}`}>
       <div
@@ -95,4 +99,5 @@ const Sidebar = ({ isSidebarExpanded, toggleSidebar }) => {
     </div>
   );
 };
+
 export default Sidebar;
