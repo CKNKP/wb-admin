@@ -107,28 +107,28 @@ function ManageUser() {
                 ))}
               </tbody>
             </table>
+            <div className="d-flex justify-content-center gap-3 m-3 mb-3">
+              <button
+                className="btn btn-primary"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 0}
+              >
+                Previous
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                Next
+              </button>
+              <input
+                type="text"
+                className="form-control size-input"
+                value={itemsPerPageText}
+                onChange={handleItemsPerPageChange}
+              />
+            </div>
           </div>
-        </div>
-        <div className="d-flex justify-content-center gap-4 m-3 mb-3">
-          <button
-            className="btn btn-primary"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 0}
-          >
-            Previous
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => handlePageChange(currentPage + 1)}
-          >
-            Next
-          </button>
-          <input
-            type="text"
-            className="form-control size-input"
-            value={itemsPerPageText}
-            onChange={handleItemsPerPageChange}
-          />
         </div>
       </div>
     </div>

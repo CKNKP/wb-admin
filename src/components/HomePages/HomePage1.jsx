@@ -23,7 +23,8 @@ function HomePage1() {
       <div
         className={`create-main-content ${isSidebarExpanded ? "expanded" : ""}`}
       >
-        <div className="container-fluid">
+        <h2 className="text-center">Admin Dashboard</h2>
+        <div className="container-fluid mt-3">
           <div className="row">
             <div className="col-12 col-sm-6 col-md-4 mb-4">
               <div className="card card-gradient h-100">
