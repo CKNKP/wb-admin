@@ -187,7 +187,7 @@ function CreateUser() {
       >
         <h2 className="text-center">Create User</h2>
         <div className="create-user-container">
-          <div className="card create-user-form">
+          <div className="card create-user-form mt-3">
             <div
               className="card-body"
               style={{ backgroundColor: "rgb(243,244,247)" }}

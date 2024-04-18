@@ -41,7 +41,7 @@
 .sidebar-item-text {
   margin-left: 5px;
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-family: "times new roman", serif;
   color: #000;
   transition: display 0.3s ease;
@@ -66,6 +66,7 @@
 
 .home-sidebar:not(.expanded) + .create-main-content {
   margin-left: 80px;
+  margin-right: 20px;
 }
 
 .home-sidebar.expanded + .create-main-content {

@@ -31,8 +31,9 @@ function Header({ toggleSidebar }) {
     <div className="report-header d-flex justify-content-between align-items-center">
       <FontAwesomeIcon
         icon={faBars}
-        className="daily_report_icon mt-2 me-3 sidebar-toggle-btn"
+        className="mt-2 sidebar-toggle-btn"
         onClick={toggleSidebar}
+        style={{ fontSize: "1.3rem" }}
       />
       <h2 className="report-header-title text-center mt-3">
         WEIGHBRIDGE MANAGEMENT SYSTEM
@@ -40,7 +41,7 @@ function Header({ toggleSidebar }) {
       <div>
         <FontAwesomeIcon
           icon={faUser}
-          className="daily_report_icon mt-2 me-2 home-toggle-btn"
+          className="daily_report_icon mt-2 home-toggle-btn"
           onClick={handleUserProfileClick}
         />
         <Popover

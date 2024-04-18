@@ -19,6 +19,7 @@ import HomePage5 from "./components/HomePages/HomePage5.jsx";
 import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 import HomePage1 from "./components/HomePages/HomePage1.jsx";
 import Header from "./components/Header/Header.jsx";
+import Vehicle from "./components/Vehicle/Vehicle.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
       <Route path="/home5" element={<HomePage5 />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/header" element={<Header />} />
+      <Route path="/vehicle" element={<Vehicle />} />
     </Route>
   )
 );
