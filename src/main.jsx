@@ -21,6 +21,7 @@ import HomePage1 from "./components/HomePages/HomePage1.jsx";
 import Header from "./components/Header/Header.jsx";
 import Vehicle from "./components/Vehicle/Vehicle.jsx";
 import Transporter from "./components/Transporter/Transporter.jsx";
+import Rough from "./components/Rough/Rough.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
       <Route path="/header" element={<Header />} />
       <Route path="/vehicle" element={<Vehicle />} />
       <Route path="/transporter" element={<Transporter />} />
+      <Route path="/rough" element={<Rough />} />
     </Route>
   )
 );

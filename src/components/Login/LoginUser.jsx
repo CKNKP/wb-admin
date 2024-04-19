@@ -80,12 +80,14 @@ const LoginUser = () => {
           }
         }
       } else {
-        console.error("Login failed:", response.statusText);
-        Swal.fire({
-          title: "Login Failed",
-          text: response.statusText,
-          icon: "error",
-          confirmButtonText: "OK",
+        return response.json().then((error) => {
+          Swal.fire({
+            title: "Error",
+            text: error.message,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          throw new Error(error.message);
         });
       }
     } catch (error) {
@@ -134,6 +136,7 @@ const LoginUser = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-control login-input"
                 required
+                autoComplete="on"
               />
             </div>
             <button type="submit" className="btn btn-primary login-btn">
