@@ -260,27 +260,6 @@ function CreateUser() {
                     />
                   </div>
 
-                  <div className="row mb-3"></div>
-                  {/* <div className="col-md-6">
-                    <label htmlFor="userId" className="form-label">
-                      User ID
-                      <span style={{ color: "red", fontWeight: "bold" }}>
-                        *
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="userId"
-                      placeholder="Enter User ID"
-                      value={userId}
-                      onChange={(e) => setuserId(e.target.value)}
-                      required
-                    />
-                  </div> */}
-                </div>
-
-                <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor=" contactNo" className="form-label">
                       Mobile Number
@@ -297,7 +276,59 @@ function CreateUser() {
                       onChange={(e) => setcontactNo(e.target.value)}
                     />
                   </div>
+                </div>
 
+                <div className="row mb-3"></div>
+
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor="company" className="form-label">
+                      Company Name
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
+                    </label>
+                    <select
+                      className="form-select"
+                      id="company"
+                      value={company}
+                      onChange={handleCompanyChange}
+                      required
+                    >
+                      <option value="">Select Company Name</option>
+                      {companies.map((c, index) => (
+                        <option key={index} value={c}>
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="site" className="form-label">
+                      Site Name
+                      <span style={{ color: "red", fontWeight: "bold" }}>
+                        *
+                      </span>
+                    </label>
+                    <select
+                      className="form-select"
+                      id="site"
+                      value={site}
+                      onChange={(e) => setsite(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Site Name</option>
+                      {sites.map((s, index) => (
+                        <option key={index} value={s.site}>
+                          {s.site}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="role" className="form-label">
                       Role
@@ -405,54 +436,6 @@ function CreateUser() {
                         </ul>
                       </div>
                     </div>
-                  </div>
-                </div>
-
-                <div className="row mb-3">
-                  <div className="col-md-6">
-                    <label htmlFor="company" className="form-label">
-                      Company Name
-                      <span style={{ color: "red", fontWeight: "bold" }}>
-                        *
-                      </span>
-                    </label>
-                    <select
-                      className="form-select"
-                      id="company"
-                      value={company}
-                      onChange={handleCompanyChange}
-                      required
-                    >
-                      <option value="">Select Company Name</option>
-                      {companies.map((c, index) => (
-                        <option key={index} value={c}>
-                          {c}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="col-md-6">
-                    <label htmlFor="site" className="form-label">
-                      Site Name
-                      <span style={{ color: "red", fontWeight: "bold" }}>
-                        *
-                      </span>
-                    </label>
-                    <select
-                      className="form-select"
-                      id="site"
-                      value={site}
-                      onChange={(e) => setsite(e.target.value)}
-                      required
-                    >
-                      <option value="">Select Site Name</option>
-                      {sites.map((s, index) => (
-                        <option key={index} value={s.site}>
-                          {s.site}
-                        </option>
-                      ))}
-                    </select>
                   </div>
                 </div>
 

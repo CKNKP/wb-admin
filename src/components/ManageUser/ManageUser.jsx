@@ -137,14 +137,14 @@ function ManageUser() {
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 0}
             >
-              Previous
+              &lt;
             </Button>
-            <span>&lt;{currentPage}&gt;</span>
+            <span>{currentPage}</span>
             <Button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={!hasMorePages} // Disable the button when there are no more pages
             >
-              Next
+              &gt;
             </Button>
           </div>
         </div>

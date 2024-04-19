@@ -13,6 +13,17 @@ function Vehicle() {
   const [loadCapacity, setLoadCapacity] = useState("");
   const [fitnessUpto, setFitnessUpto] = useState("");
 
+  const handleCancel = () => {
+    setVehicleNo("");
+    setTransporter("");
+    setVehicleType("");
+    setVehicleManufacturer("");
+    setWheelsNo("");
+    setTareWeight("");
+    setLoadCapacity("");
+    setFitnessUpto("");
+  };
+
   const toggleSidebar = () => {
     setIsSidebarExpanded(!isSidebarExpanded);
   };
@@ -91,8 +102,7 @@ function Vehicle() {
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="vehicleManufacturer" className="form-label">
-                    Vehicle Manufacturer{" "}
-                    <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                    Vehicle Manufacturer
                   </label>
                   <input
                     type="text"
@@ -101,15 +111,13 @@ function Vehicle() {
                     placeholder="Enter Vehicle Manufacturer"
                     value={vehicleManufacturer}
                     onChange={(e) => setVehicleManufacturer(e.target.value)}
-                    required
                   />
                 </div>
               </div>
               <div className="row mb-2">
                 <div className="col-md-6">
                   <label htmlFor="wheelsNo" className="form-label">
-                    Number of Wheels{" "}
-                    <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                    Number of Wheels
                   </label>
                   <input
                     type="number"
@@ -118,13 +126,11 @@ function Vehicle() {
                     placeholder="Enter Number of Wheels"
                     value={wheelsNo}
                     onChange={(e) => setWheelsNo(e.target.value)}
-                    required
                   />
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="tareWeight" className="form-label">
-                    Tare Weight (kg){" "}
-                    <span style={{ color: "red", fontWeight: "bold" }}>*</span>
+                    Tare Weight (kg)
                   </label>
                   <input
                     type="number"
@@ -133,7 +139,6 @@ function Vehicle() {
                     placeholder="Enter Tare Weight"
                     value={tareWeight}
                     onChange={(e) => setTareWeight(e.target.value)}
-                    required
                   />
                 </div>
               </div>
@@ -167,6 +172,35 @@ function Vehicle() {
                     required
                   />
                 </div>
+              </div>
+
+              <div className="d-flex justify-content-center mt-5">
+                <button
+                  type="button"
+                  className="btn btn-danger me-4 btn-hover"
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    fontWeight: "bold",
+                    transition: "transform 0.3s ease-in-out",
+                  }}
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success-1 btn-hover"
+                  style={{
+                    backgroundColor: "green",
+                    color: "white",
+                    fontWeight: "bold",
+                    transition: "transform 0.3s ease-in-out",
+                  }}
+                  // onClick={handleSave}
+                >
+                  Save
+                </button>
               </div>
             </form>
           </div>

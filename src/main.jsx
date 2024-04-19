@@ -20,6 +20,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 import HomePage1 from "./components/HomePages/HomePage1.jsx";
 import Header from "./components/Header/Header.jsx";
 import Vehicle from "./components/Vehicle/Vehicle.jsx";
+import Transporter from "./components/Transporter/Transporter.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/header" element={<Header />} />
       <Route path="/vehicle" element={<Vehicle />} />
+      <Route path="/transporter" element={<Transporter />} />
     </Route>
   )
 );

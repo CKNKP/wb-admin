@@ -31,7 +31,7 @@ function Header({ toggleSidebar }) {
     <div className="report-header d-flex justify-content-between align-items-center">
       <FontAwesomeIcon
         icon={faBars}
-        className="mt-2 sidebar-toggle-btn"
+        className="mt-2 sidebar-toggle-btn mx-3"
         onClick={toggleSidebar}
         style={{ fontSize: "1.3rem" }}
       />
