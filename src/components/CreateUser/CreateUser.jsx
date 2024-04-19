@@ -68,7 +68,6 @@ function CreateUser() {
 
   const handleSave = () => {
     if (
-      // userId.trim() === "" ||
       role.length === 0 ||
       company.trim() === "" ||
       site.trim() === "" ||
@@ -86,7 +85,6 @@ function CreateUser() {
     }
 
     const userData = {
-      // userId,
       firstName,
       middleName,
       lastName,
@@ -108,26 +106,19 @@ function CreateUser() {
     })
       .then((response) => {
         if (response.ok) {
-          // Check if the response is JSON or text
-          const contentType = response.headers.get("content-type");
-          if (contentType && contentType.includes("application/json")) {
-            // If the response is JSON, parse it as JSON
-            return response.json();
-          } else {
-            // If the response is text, return the text
-            return response.text();
-          }
+          return response.text(); // Assume the success response is text
+        } else {
+          return response.json().then((error) => {
+            throw new Error(error.message);
+          });
         }
-        throw new Error("Network response was not ok.");
       })
       .then((data) => {
-        // Determine the title for the SweetAlert modal
-        const title =
-          typeof data === "string" ? data : "User Created Successfully!";
+        console.log("Response from the API:", data);
 
-        // Show SweetAlert modal with the determined title
+        // Show SweetAlert modal with the success message
         Swal.fire({
-          title: title,
+          title: data, // Use the response text as the success message
           icon: "success",
           confirmButtonText: "OK",
           customClass: {
@@ -136,9 +127,9 @@ function CreateUser() {
         });
       })
       .catch((error) => {
-        // Handle errors
         console.error("Error:", error);
-        // Optionally, show an error message to the user
+
+        // Show SweetAlert modal with the error message
         Swal.fire({
           title: "Error",
           text: error.message,
